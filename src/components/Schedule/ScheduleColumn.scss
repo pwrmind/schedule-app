@@ -1,0 +1,12 @@
+.schedule-column {
+    display: block;
+    width: 300px;
+    height: calc(100% - 12px - 12px);
+    margin: 12px;
+    flex: 0 0 300px !important;
+    &__day {
+        background: #d9d9d9;
+        width: 100%;
+        padding: 6px;
+    }
+}

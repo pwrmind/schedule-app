@@ -3,14 +3,14 @@ import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn } from 
 import moment from 'moment'
 import ScheduleData from '../../mocks/schedule.json';
 
-export function getDayTimeIntervals(interValsInHour: number, fromHour = 0, tillHourd = 24) {
+export function getDayTimeIntervals(interValsInHour: number, fromHour = 0, tillHour = 24): string[] {
     if (60%interValsInHour > 0 ) {
         throw new Error(`No valid time interval for hour`);
     }
     const intervalsCount = Math.round(24*(60/interValsInHour));
     return Array(intervalsCount).fill('')
         .map((value, index) => `${Math.floor(index * 0.5)}:${(index % 2 > 0) || (index === 1) ? '30' : '00' }`)
-        .filter((value, index) => Math.floor(index * 0.5) >= fromHour && Math.floor(index * 0.5 + 0.5) <= tillHourd);
+        .filter((value, index) => Math.floor(index * 0.5) >= fromHour && Math.floor(index * 0.5 + 0.5) <= tillHour);
 }
 
 export function mapScheduleItemToDomain(dto: ScheduleItemDto): ScheduleItem {
@@ -44,7 +44,7 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
     return [...hashMap.keys()].map((key) => ({
         building: hashMap.get(key)?.[0]?.building as string,
         employee: hashMap.get(key)?.[0]?.employee as string,
-        date: moment(hashMap.get(key)?.[0]?.startDate as Date).toDate() as Date,
+        date: moment(hashMap.get(key)?.[0]?.startDate as Date).startOf('day').toDate() as Date,
         items: hashMap.get(key) || [],
         office: hashMap.get(key)?.[0]?.office as string,
         specialty: hashMap.get(key)?.[0]?.specialty as string,

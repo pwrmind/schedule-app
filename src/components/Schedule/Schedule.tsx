@@ -2,27 +2,28 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Layout } from 'antd';
 import { getDayTimeIntervals, fetchScheduleData, mapListScheduleItemToDomainList,
     mapScheduleItemsToColumn, sortScheduleItemsByDate } from './Schedule.module';
-import { ScheduleItem, ScheduleColumn } from './Schedule.models';
+import { ScheduleItem, ScheduleColumn as ScheduleColumnInterface } from './Schedule.models';
+import ScheduleColumn from './ScheduleColumn';
 import './Schedule.scss';
 
 export default function Schedule() {
-    const [timeIntervals] = useMemo(() => getDayTimeIntervals(30, 7, 20), []);
+    const timeIntervals = useMemo<string[]>(() => getDayTimeIntervals(30, 7, 20) as string[], []);
     const [scheduleData, setScheduleData] = useState<ScheduleItem[]>([]);
-    const [columns, setColumns] = useState<ScheduleColumn[]>([]);
-
+    const [columns, setColumns] = useState<ScheduleColumnInterface[]>([]);
+    const columnsPipe = (data: ScheduleItem[]): ScheduleColumnInterface[]  => {
+        return [mapScheduleItemsToColumn, sortScheduleItemsByDate].reduce((acc, func) => func(acc), data as any[]);
+    }
     useEffect(() => {
         fetchScheduleData()
             .then((data) => mapListScheduleItemToDomainList(data))
             .then((data) => setScheduleData(data));
     }, []);
 
-    useEffect(() => setColumns(
-        sortScheduleItemsByDate(mapScheduleItemsToColumn(scheduleData))),
-        [scheduleData]);
+    useEffect(() =>  setColumns(columnsPipe(scheduleData)), [scheduleData]);
 
     return (
         <Layout className='schedule'>
-            
+            {columns.map((column) => <ScheduleColumn scheduleColumn={column} timeIntervals={timeIntervals}/>)}
         </Layout>
     );
 }

@@ -1,4 +1,8 @@
 .sheduling {
     display: block;
     height: 100%;
+    overflow: hidden;
+    &__content {
+        overflow: hidden;
+    }
 }
