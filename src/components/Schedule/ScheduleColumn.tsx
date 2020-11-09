@@ -4,10 +4,10 @@ import { getDayTimeIntervals } from './Schedule.module';
 import './Schedule.scss';
 
 export default function Schedule() {
-    const [timeIntervals] = useMemo(() => getDayTimeIntervals(30), []);
+    const [timeIntervals] = useMemo(() => getDayTimeIntervals(30, 7, 20), []);
     return (
-        <Layout>
+        <section className='shedule-column'>
             
-        </Layout>
+        </section>
     );
 }
