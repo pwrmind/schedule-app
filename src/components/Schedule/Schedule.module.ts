@@ -1,5 +1,6 @@
 import { Store } from "antd/lib/form/interface";
 import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn } from "./Schedule.models";
+import moment from 'moment'
 import ScheduleData from '../../mocks/schedule.json';
 
 export function getDayTimeIntervals(interValsInHour: number, fromHour = 0, tillHourd = 24) {
@@ -23,8 +24,35 @@ export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): Schedu
     return list.map(mapScheduleItemToDomain);
 }
 
+function getColumnGenericKey(item: ScheduleItem): string {
+    const {startDate, employee, office, specialty} = item;
+    return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty;
+}
+
+
 export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
-    return [];
+    const hashMap = list.reduce((acc, value) => {
+        const genericKey = getColumnGenericKey(value);
+        if (acc.has(genericKey) && acc.get(genericKey)) {
+            acc.get(genericKey)?.push(value);
+        }
+        if (!acc.has(genericKey)) {
+            acc.set(genericKey, [value]);
+        }
+        return acc;
+    }, new Map<string, ScheduleItem[]>());
+    return [...hashMap.keys()].map((key) => ({
+        building: hashMap.get(key)?.[0]?.building as string,
+        employee: hashMap.get(key)?.[0]?.employee as string,
+        date: moment(hashMap.get(key)?.[0]?.startDate as Date).toDate() as Date,
+        items: hashMap.get(key) || [],
+        office: hashMap.get(key)?.[0]?.office as string,
+        specialty: hashMap.get(key)?.[0]?.specialty as string,
+    }));
+}
+
+export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {
+    return columns.sort((a, b) => a.date.getTime() - b.date.getTime());
 }
 
 export async function fetchScheduleData(): Promise<ScheduleItemDto[]>  {
