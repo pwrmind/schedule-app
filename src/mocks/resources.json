@@ -1,0 +1,22 @@
+[
+    {
+        "fullName": "Doctor Who Why",
+        "office": "415",
+        "specialty": "therapist"
+    },
+    {
+        "fullName": "Bikov Andrey Evgenievich",
+        "office": "412",
+        "specialty": "therapist"
+    },
+    {
+        "fullName": "Kupetman Ivan Natanovich",
+        "office": "103",
+        "specialty": "therapist"
+    },
+    {
+        "fullName": "Dulitle John Lenovich",
+        "office": "106",
+        "specialty": "optometrist"
+    }
+]

@@ -1,25 +1,22 @@
 
-import React, { useState } from 'react'; 
-import { Layout, Typography } from 'antd';
+import React from 'react';
+import { Layout, Typography} from 'antd';
 import { CustomRoute } from '../router/routes';
+import SchedulingSideMenu from '../components/SchedulingSideMenu';
+import ScheduleHeader from '../components/ScheduleHeader';
+import Schedule from '../components/Schedule';
+import './Sheduling.scss';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
-export default  (props: {routes?: CustomRoute[]}) => {
-    const [siderIsCollapsed] = useState(false);
+export default function Scheduling(props: { routes?: CustomRoute[] }) {
     return (
-        <Layout>
-            <Sider trigger={null} collapsible collapsed={siderIsCollapsed}>
-               <Typography.Title>
-                   Side menu
-               </Typography.Title>
-            </Sider>
-            <Layout>
-                <Header>
-                    <Typography.Title>Some header</Typography.Title>
-                </Header>
+        <Layout className='sheduling'>
+            <SchedulingSideMenu />
+            <Layout className='sheduling__content'>
+                <ScheduleHeader />
                 <Content>
-                <Typography.Title>Some content</Typography.Title>
+                    <Schedule />
                 </Content>
             </Layout>
         </Layout>

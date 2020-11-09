@@ -1,0 +1,19 @@
+.patient-search {
+    width: 100%;
+    padding-bottom: 16px;
+    &__column {
+        display: flex !important;
+        flex-flow: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    &__section-title {
+        padding: 0;
+        margin: 0;
+        margin-bottom: 0 !important;
+    }
+    &__autocomplete {
+        width: 100%;
+    }
+
+}
