@@ -16,6 +16,7 @@ export interface ScheduleProps {
 }
 
 export interface ScheduleColumn {
+    key?: string;
     date: Date;
     office: string;
     building: string;

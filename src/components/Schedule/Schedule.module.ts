@@ -29,7 +29,6 @@ function getColumnGenericKey(item: ScheduleItem): string {
     return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty;
 }
 
-
 export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
     const hashMap = list.reduce((acc, value) => {
         const genericKey = getColumnGenericKey(value);
@@ -42,6 +41,7 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
         return acc;
     }, new Map<string, ScheduleItem[]>());
     return [...hashMap.keys()].map((key) => ({
+        key,
         building: hashMap.get(key)?.[0]?.building as string,
         employee: hashMap.get(key)?.[0]?.employee as string,
         date: moment(hashMap.get(key)?.[0]?.startDate as Date).startOf('day').toDate() as Date,
