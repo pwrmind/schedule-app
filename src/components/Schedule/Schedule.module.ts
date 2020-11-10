@@ -1,7 +1,6 @@
 import { Store } from "antd/lib/form/interface";
-import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource } from "./schedule.models";
+import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto } from "./schedule.models";
 import moment from 'moment'
-import ScheduleData from '../../mocks/schedule.json';
 
 function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
     return Array(24)
@@ -28,6 +27,14 @@ export function mapScheduleItemToDomain(dto: ScheduleItemDto): ScheduleItem {
 
 export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): ScheduleItem[] {
     return list.map(mapScheduleItemToDomain);
+}
+
+export function mapResourceItemToDomain(dto: AvailableResourceDto): AvailableResource {
+    return {...dto, intervalFrom: new Date(dto.intervalFrom), intervalTill: new Date(dto.intervalTill)};
+}
+
+export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[]): AvailableResource[] {
+    return list.map(mapResourceItemToDomain);
 }
 
 function getColumnGenericKey(item: ScheduleItem): string {
@@ -59,10 +66,6 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
 
 export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {
     return columns.sort((a, b) => a.date.getTime() - b.date.getTime());
-}
-
-export async function fetchScheduleData(): Promise<ScheduleItemDto[]>  {
-    return Promise.resolve(ScheduleData as ScheduleItemDto[]);
 }
 
 export function getTimeTupleFromTimeString(time: string): [number, number] {

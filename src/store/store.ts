@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import schedule from '../components/Schedule/schedule.slice';
+import params from '../components/params.slice';
 
-const rootReducer = combineReducers({schedule});
+const rootReducer = combineReducers({schedule, params});
 
 export type RootState = ReturnType<typeof rootReducer>;
 

@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Store } from 'antd/lib/form/interface';
 import { AvailableResource, ScheduleItem, ScheduleColumn } from './schedule.models';
-import { mapListScheduleItemToDomainList, mapScheduleItemsToColumn, sortScheduleItemsByDate} from './schedule.module';
+import { mapListResourceDtoListToDomainList } from './schedule.module';
 import PatientsMock from '../../mocks/patients.json';
 import ResourcesMock from '../../mocks/resources.json';
-import ScheduleItemsMock from '../../mocks/schedule.json';
 
 
 interface ModuleState {
@@ -16,9 +15,9 @@ interface ModuleState {
 
 const initialState: ModuleState =  {
     patients: [...PatientsMock],
-    resources: [...ResourcesMock],
-    scheduleItems: [...mapListScheduleItemToDomainList(ScheduleItemsMock as any[])],
-    scheduleColumns: [...sortScheduleItemsByDate(mapScheduleItemsToColumn(mapListScheduleItemToDomainList(ScheduleItemsMock as any[])))],
+    resources: [...mapListResourceDtoListToDomainList(ResourcesMock)],
+    scheduleItems: [],
+    scheduleColumns: [],
 };
 
 const schedule = createSlice({

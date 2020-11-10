@@ -1,4 +1,5 @@
 import { Store } from "antd/lib/form/interface";
+import { Moment } from "moment";
 
 export enum TimeIntervalType {
     RESERVED = 'RESERVED',
@@ -15,6 +16,19 @@ export interface ScheduleProps {
     toDate: Date;
 }
 
+export interface AvailableResourceDto {
+    id: number;
+    fullName: string;
+    office: string;
+    building: string;
+    specialty: string;
+    startWorkingHour: string;
+    endWorkingHour: string;
+    workingHourStep: number;
+    intervalFrom: string;
+    intervalTill: string;
+}
+
 export interface AvailableResource {
     id: number;
     fullName: string;
@@ -24,6 +38,8 @@ export interface AvailableResource {
     startWorkingHour: string;
     endWorkingHour: string;
     workingHourStep: number;
+    intervalFrom: Date;
+    intervalTill: Date;
 }
 
 export interface ScheduleColumn {

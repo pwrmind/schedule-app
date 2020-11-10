@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Layout, Divider, DatePicker, Typography } from 'antd';
+import { Layout, Divider, Typography } from 'antd';
 import PatientSearch from './PatienceSearch';
 import ResourcesTree from './ResourcesTree';
+import AppointmentDatePicker from './AppointmentDatePicker';
 import './SchedulingSideMenu.scss';
 
 const { Sider } = Layout;
-const { RangePicker } = DatePicker;
 
 export default function SchedulingSideMenu() {
     const [siderIsCollapsed] = useState(false);
@@ -14,7 +14,7 @@ export default function SchedulingSideMenu() {
             <PatientSearch />
             <Divider />
             <Typography.Title level={5}>Appointment date</Typography.Title>
-            <RangePicker />
+            <AppointmentDatePicker />
             <Divider />
             <ResourcesTree />
         </Sider>

@@ -7,7 +7,9 @@
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
-        "workingHourStep": 30
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00"
     },
     {
         "id": 1,
@@ -17,7 +19,9 @@
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
-        "workingHourStep": 30
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00"
     },
     {
         "id": 2,
@@ -27,7 +31,9 @@
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
-        "workingHourStep": 30
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00"
     },
     {
         "id": 3,
@@ -37,7 +43,9 @@
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "15:00",
-        "workingHourStep": 30
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00"
     },
     {
         "id": 4,
@@ -47,6 +55,8 @@
         "specialty": "optometrist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
-        "workingHourStep": 30
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00"
     }
 ]
