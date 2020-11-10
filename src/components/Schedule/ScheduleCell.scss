@@ -16,5 +16,6 @@
     }
     &__text {
         line-height: calc(#{$schedule-cell-height} - 8px);
+        font-weight: 600;
     }
 }

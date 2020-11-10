@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Typography} from 'antd';
+import { AvailableResource } from './schedule.models';
 import './ScheduleCell.scss'
 
 interface DefaultProps {

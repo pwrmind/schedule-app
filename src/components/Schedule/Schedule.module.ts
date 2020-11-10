@@ -31,8 +31,8 @@ export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): Schedu
 }
 
 function getColumnGenericKey(item: ScheduleItem): string {
-    const {startDate, employee, office, specialty} = item;
-    return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty;
+    const {startDate, employee, office, specialty, building} = item;
+    return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty + building;
 }
 
 export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
@@ -70,3 +70,7 @@ export function getTimeTupleFromTimeString(time: string): [number, number] {
     return [result[0], result[1]];
 }
 
+export function fullNameToShortForm(fullName: string) {
+    const nameArr = fullName.split(' ').map(s => s.trim()).filter(s => !!s).map((s, i) => i === 0 ? s : s.slice(0, 1));
+    return nameArr.length === 3 ? nameArr.map((s, i) => i === 0 ? s : s + '.').join(' ') : fullName;
+}

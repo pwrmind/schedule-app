@@ -6,10 +6,32 @@
     height: calc(100% - 12px - 12px);
     margin: 12px;
     flex: 0 0 $schedule-column-width !important;
-    &__day {
-        background: #d9d9d9;
+    &__day, &__employee, &__specialty, &__resource {
+        color: #ffffff;
         width: 100%;
         padding: 6px;
+    }
+    &__day {
+        background: #595959;
+    }
+    &__employee {
+        background: #8c8c8c;
+    }
+    &__specialty {
+        background: #bfbfbf;
+    }
+    &__resource {
+        background: #e6f7ff; 
+    }
+    &__day-title, &__employee-title, &__specialty-title, &__resource-title {
+        display: block;
+        width: 100%;
+        color: #ffffff !important;
+        font-weight: 600;
+        text-align: center;
+    }
+    &__resource-title {
+        color: #434343 !important;
     }
     &__cells {
         display: block !important;

@@ -2,7 +2,7 @@
     {
         "id": 0,
         "fullName": "Doctor Who Why",
-        "office": "415",
+        "office": "o. 415",
         "building": "GP-128",
         "specialty": "therapist",
         "startWorkingHour": "08:00",
@@ -12,7 +12,7 @@
     {
         "id": 1,
         "fullName": "Bikov Andrey Evgenievich",
-        "office": "412",
+        "office": "o. 412",
         "building": "GP-128",
         "specialty": "therapist",
         "startWorkingHour": "08:00",
@@ -22,27 +22,27 @@
     {
         "id": 2,
         "fullName": "Bikov Andrey Evgenievich",
-        "office": "412",
+        "office": "o. 412",
         "building": "OP-57",
-        "specialty": "therapist",
-        "startWorkingHour": "08:00",
-        "endWorkingHour": "19:00",
-        "workingHourStep": 15
-    },
-    {
-        "id": 3,
-        "fullName": "Kupetman Ivan Natanovich",
-        "office": "103",
-        "building": "GP-128",
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
         "workingHourStep": 30
     },
     {
+        "id": 3,
+        "fullName": "Kupetman Ivan Natanovich",
+        "office": "o. 103",
+        "building": "GP-128",
+        "specialty": "therapist",
+        "startWorkingHour": "08:00",
+        "endWorkingHour": "15:00",
+        "workingHourStep": 30
+    },
+    {
         "id": 4,
         "fullName": "Dulitle John Lenovich",
-        "office": "106",
+        "office": "o. 106",
         "building": "GP-128",
         "specialty": "optometrist",
         "startWorkingHour": "08:00",
