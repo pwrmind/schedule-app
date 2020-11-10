@@ -3,14 +3,20 @@ import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, Availa
 import moment from 'moment'
 import ScheduleData from '../../mocks/schedule.json';
 
-export function getDayTimeIntervals(interValsInHour: number, fromHour = 0, tillHour = 24): string[] {
-    if (60%interValsInHour > 0 ) {
-        throw new Error(`No valid time interval for hour`);
-    }
-    const intervalsCount = Math.round(24*(60/interValsInHour));
-    return Array(intervalsCount).fill('')
-        .map((value, index) => `${Math.floor(index * 0.5)}:${(index % 2 > 0) || (index === 1) ? '30' : '00' }`)
-        .filter((value, index) => Math.floor(index * 0.5) >= fromHour && Math.floor(index * 0.5 + 0.5) <= tillHour);
+function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
+    return Array(24)
+        .fill(0)
+        .map((v, i) => i)
+        .filter((v) => (v >= fromHour) && (v <= tillHour))
+        .map((v) => [v, Array(60 / interval).fill(0).map((j, i) => i * interval)] as [number, number[]])
+        .map((v) => v[1].map((j) => (v[0] > 9 ? '' + v[0] : '0' + v[0]) + ':' + (j > 9 ? '' + j : '0' + j)))
+        .flat();
+}
+
+export function mapAvailableResourceToTimeIntervals(resource: AvailableResource): string[] {
+    const startHour = getTimeTupleFromTimeString(resource.startWorkingHour)[0];
+    const endHour = getTimeTupleFromTimeString(resource.endWorkingHour)[0];
+    return getDayTimeIntervals(resource.workingHourStep, startHour, endHour);
 }
 
 export function mapScheduleItemToDomain(dto: ScheduleItemDto): ScheduleItem {
@@ -58,3 +64,9 @@ export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColu
 export async function fetchScheduleData(): Promise<ScheduleItemDto[]>  {
     return Promise.resolve(ScheduleData as ScheduleItemDto[]);
 }
+
+export function getTimeTupleFromTimeString(time: string): [number, number] {
+    const result = time.split(':').map(value => parseInt(value, 10));
+    return [result[0], result[1]];
+}
+

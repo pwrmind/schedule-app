@@ -27,7 +27,7 @@
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
-        "workingHourStep": 30
+        "workingHourStep": 15
     },
     {
         "id": 3,

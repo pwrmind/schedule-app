@@ -12,7 +12,7 @@ export default function Schedule() {
 
     return (
         <Layout className='schedule'>
-            {columns.map((column, i) => <ScheduleColumn scheduleColumn={column} timeIntervals={timeIntervals} key={column.key || i}/>)}
+            {columns.map((column, i) => <ScheduleColumn scheduleColumn={column} key={column.key || i}/>)}
         </Layout>
     );
 }
