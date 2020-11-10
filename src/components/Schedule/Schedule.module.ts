@@ -30,7 +30,7 @@ export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): Schedu
 }
 
 export function mapResourceItemToDomain(dto: AvailableResourceDto): AvailableResource {
-    return {...dto, intervalFrom: moment(dto.intervalFrom), intervalTill: moment(dto.intervalTill)};
+    return {...dto};
 }
 
 export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[]): AvailableResource[] {

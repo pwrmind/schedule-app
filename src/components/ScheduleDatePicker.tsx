@@ -1,28 +1,28 @@
 import React from 'react';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import { useDispatch } from 'react-redux';
 import { RangeValue } from 'rc-picker/lib/interface';
-import { RangeInfo } from 'rc-picker/lib/RangePicker';
-import { setDateRange } from './params.slice';
+import { setStartDate, setEndDate } from './params.slice';
+import locale from 'antd/es/date-picker/locale/ru_RU';
 
 const { RangePicker } = DatePicker;
 
 function disabledDate(current: Moment) {
     return current && current <= moment().startOf('day');
-}
+  }
 
 export default function ScheduleDatePicker() {
     const dispatch = useDispatch();
-    const range = useSelector((state: RootState) => state.params.dateRange.map((v) => moment(v)) as [Moment, Moment]);
-    const onCalendarChange = (values: RangeValue<Moment>, formatString: [string, string], info: RangeInfo) => {
+    const onChange = (values: RangeValue<Moment>, formatString: [string, string]) => {
+        console.log(formatString);
+        console.log(values);
         if (values?.every(v => !!v)) {
-            const payload = values.map(v => (v as Moment).startOf('day')) as [Moment, Moment];
-            dispatch(setDateRange(payload));
+            dispatch(setStartDate(formatString[0]));
+            dispatch(setEndDate(formatString[1]));
         }
     }
     return (
-        <RangePicker disabledDate={disabledDate} defaultValue={range} onCalendarChange={onCalendarChange}/>
+        <RangePicker locale={locale} onChange={onChange} defaultValue={[moment(), moment().add(1, 'week')]} disabledDate={disabledDate}/>
     );
 }

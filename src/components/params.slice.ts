@@ -1,25 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment, { Moment } from 'moment';
+import { DEFAULT_DATE_FORMAT } from '../constants';
 
 
 interface ModuleState {
-    dateRange: [Moment, Moment];
+    startDate: string;
+    endDate: string;
 }
 
 const initialState: ModuleState =  {
-    dateRange: [moment(new Date()).startOf('day'), moment(new Date()).startOf('day').add(7, 'day')],
+    startDate: moment().add(0, 'day').format(DEFAULT_DATE_FORMAT),
+    endDate: moment().add(1, 'week').format(DEFAULT_DATE_FORMAT),
 };
 
 const params = createSlice({
     name: 'schedule',
     initialState,
     reducers: {
-        setDateRange(state: ModuleState, action: PayloadAction<[Moment, Moment]>) {
-            state.dateRange = [...action.payload];
+        setStartDate(state: ModuleState, action: PayloadAction<string>) {
+            state.startDate = action.payload;
+        },
+        setEndDate(state: ModuleState, action: PayloadAction<string>) {
+            state.endDate = action.payload;
         }
     }
 });
 
-export const { setDateRange } = params.actions;
+export const { setStartDate, setEndDate } = params.actions;
 
 export default params.reducer;

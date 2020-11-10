@@ -1,20 +1,19 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import { RootState } from '../../store/store';
+import moment from 'moment';
+import { DEFAULT_DATE_FORMAT } from '../../constants';
 
 
 export function ScheduleColumnsHook() {
-    const [startMoment, endMoment] = useSelector((state: RootState) => state.params.dateRange);
+    const startDate = useSelector((state: RootState) => state.params.startDate);
+    const endDate = useSelector((state: RootState) => state.params.endDate);
     const resourcesList = useSelector((state: RootState) => {
-        const [startMoment, endMoment] =  state.params.dateRange;
-        return state.schedule.resources.filter((v) => v.intervalTill >= endMoment && v.intervalFrom <= startMoment);
+        return state.schedule.resources.filter((v) => new Date(v.intervalTill) >= new Date(endDate) &&
+            new Date(v.intervalFrom) <= new Date(startDate));
     });
-    const rangeDaysCount = useSelector((state: RootState) =>  {
-        const [startMoment, endMoment] =  state.params.dateRange;
-        return endMoment.diff(startMoment, 'day');
-    });
-    const daysArray = useMemo(() => Array(Math.abs(rangeDaysCount)).fill(0).map((d, i) => startMoment.add(i, 'day')), []);
+    const rangeDaysCount = useMemo(() => moment(endDate).diff(moment(startDate), 'day'), [startDate, endDate]);
+    const daysArray = useMemo(() => Array(rangeDaysCount).fill(0).map((d, i) => moment(startDate).add(i, 'day').format(DEFAULT_DATE_FORMAT)), [rangeDaysCount, startDate]);
 
-    return { resourcesList, rangeDaysCount, daysArray };
+    return { resourcesList, rangeDaysCount };
 }

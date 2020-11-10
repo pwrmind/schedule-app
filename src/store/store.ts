@@ -9,10 +9,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 export default configureStore({
     reducer: rootReducer,
-    devTools: true,
-    middleware: getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: ['schedule/setDateRange']
-        }
-    })
+    devTools: true
 });

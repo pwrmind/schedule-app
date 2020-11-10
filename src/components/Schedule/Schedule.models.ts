@@ -39,8 +39,8 @@ export interface AvailableResource {
     startWorkingHour: string;
     endWorkingHour: string;
     workingHourStep: number;
-    intervalFrom: Moment;
-    intervalTill: Moment;
+    intervalFrom: string;
+    intervalTill: string;
     workingDays: number[];
 }
 
