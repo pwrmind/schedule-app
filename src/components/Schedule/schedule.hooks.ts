@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import moment from 'moment';
 import { DEFAULT_DATE_FORMAT } from '../../constants';
+import { ScheduleColumn } from './schedule.models';
+import { getColumnsByDatesAndResources } from './schedule.module';
 
 
 export function ScheduleColumnsHook() {
@@ -13,7 +15,8 @@ export function ScheduleColumnsHook() {
             new Date(v.intervalFrom) <= new Date(startDate));
     });
     const rangeDaysCount = useMemo(() => moment(endDate).diff(moment(startDate), 'day'), [startDate, endDate]);
-    const daysArray = useMemo(() => Array(rangeDaysCount).fill(0).map((d, i) => moment(startDate).add(i, 'day').format(DEFAULT_DATE_FORMAT)), [rangeDaysCount, startDate]);
+    const dates = useMemo(() => Array(rangeDaysCount).fill(0).map((d, i) => moment(startDate).add(i, 'day').format(DEFAULT_DATE_FORMAT)), [rangeDaysCount, startDate]);
+    const columns: ScheduleColumn[] = useMemo(() => getColumnsByDatesAndResources(dates, resourcesList), [dates, resourcesList])
 
-    return { resourcesList, rangeDaysCount };
+    return { resourcesList, rangeDaysCount, columns };
 }

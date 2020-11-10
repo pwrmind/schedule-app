@@ -1,6 +1,7 @@
 import { Store } from "antd/lib/form/interface";
 import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto } from "./schedule.models";
-import moment, { Moment } from 'moment'
+import moment from 'moment'
+import { DEFAULT_DATE_FORMAT } from "../../constants";
 
 function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
     return Array(24)
@@ -22,7 +23,7 @@ export function mapScheduleItemToDomain(dto: ScheduleItemDto): ScheduleItem {
     if (!(TimeIntervalType as Store)[dto.type]) {
         throw new Error(`No such type of Time interval type`);
     }
-    return {...dto, startDate: new Date(dto.startDate), endDate: new Date(dto.endDate), type: dto.type as TimeIntervalType};
+    return { ...dto, startDate: new Date(dto.startDate), endDate: new Date(dto.endDate), type: dto.type as TimeIntervalType };
 }
 
 export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): ScheduleItem[] {
@@ -30,7 +31,7 @@ export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): Schedu
 }
 
 export function mapResourceItemToDomain(dto: AvailableResourceDto): AvailableResource {
-    return {...dto};
+    return { ...dto };
 }
 
 export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[]): AvailableResource[] {
@@ -38,13 +39,8 @@ export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[])
 }
 
 function getColumnGenericKey(item: ScheduleItem): string {
-    const {startDate, employee, office, specialty, building} = item;
+    const { startDate, employee, office, specialty, building } = item;
     return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty + building;
-}
-
-function getColumnGenericKeyFromResource(resource: AvailableResource): string {
-    const { office, specialty, building, fullName } = resource;
-    return office + specialty + building + fullName;
 }
 
 export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
@@ -62,23 +58,11 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
         key,
         building: hashMap.get(key)?.[0]?.building as string,
         employee: hashMap.get(key)?.[0]?.employee as string,
-        date: moment(hashMap.get(key)?.[0]?.startDate as Date).startOf('day'),
+        date: moment(hashMap.get(key)?.[0]?.startDate).startOf('day').format(DEFAULT_DATE_FORMAT),
         items: hashMap.get(key) || [],
         office: hashMap.get(key)?.[0]?.office as string,
         specialty: hashMap.get(key)?.[0]?.specialty as string,
     }));
-}
-
-export function mapResourceToColumn(resource: AvailableResource, date: Moment): ScheduleColumn {
-    return {
-        key: getColumnGenericKeyFromResource(resource),
-        date,
-        office: resource.office,
-        building: resource.building,
-        employee: resource.fullName,
-        specialty: resource.specialty,
-        items: [],
-    };
 }
 
 export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {
@@ -93,4 +77,29 @@ export function getTimeTupleFromTimeString(time: string): [number, number] {
 export function fullNameToShortForm(fullName: string) {
     const nameArr = fullName.split(' ').map(s => s.trim()).filter(s => !!s).map((s, i) => i === 0 ? s : s.slice(0, 1));
     return nameArr.length === 3 ? nameArr.map((s, i) => i === 0 ? s : s + '.').join(' ') : fullName;
+}
+
+export function inScheduleAtDay(resource: AvailableResource, date: string) {
+    return resource.workingDays.includes(moment(date).day());
+}
+
+export function getColumnsByDatesAndResources(dates: string[], resources: AvailableResource[]): ScheduleColumn[] {
+    const columnMap = dates.reduce((acc, date) => {
+        const day = moment(date).day();
+        const availableResources = resources.filter(resource => resource.workingDays.includes(day));
+        acc.set(date, availableResources);
+        return acc;
+    }, new Map<string, AvailableResource[]>());
+    return [...columnMap.keys()].map((key) => {
+        return columnMap.get(key)?.map((resource) => (
+            {
+                building: resource.building,
+                office: resource.office,
+                specialty: resource.specialty,
+                items: [],
+                date: key,
+                employee: resource.fullName,
+            } as ScheduleColumn
+        )) || [];
+    }).flat();
 }
