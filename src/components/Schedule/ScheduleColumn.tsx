@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Layout, Row, Typography } from 'antd';
-import { ScheduleColumn as ScheduleColumnInterface } from './schedule.models';
-import moment from 'moment';
-import './ScheduleColumn.scss';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import { RootState } from '../../store/store';
 import { mapAvailableResourceToTimeIntervals } from './schedule.module';
+import { ScheduleColumn as ScheduleColumnInterface } from './schedule.models';
+import ScheduleCell from './ScheduleCell';
+import './ScheduleColumn.scss';
 
 interface DefaultProps {
     scheduleColumn: ScheduleColumnInterface;
@@ -22,6 +23,9 @@ export default function ScheduleColumn(props: DefaultProps) {
             <Row align='middle' justify='center' className='schedule-column__day'>
                 <Typography.Text>{`${moment(date).locale('ru-RU').format('ddd')}, ${moment(date).locale('ru-RU').format('DD MMM.')}`}</Typography.Text>
             </Row>
+            <Layout className='schedule-column__cells'>
+                {timeCells.map((v, i) => <ScheduleCell key={i} intervalTitle={v}/>)}
+            </Layout>
         </Layout>
     );
 }

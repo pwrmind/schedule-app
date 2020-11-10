@@ -1,12 +1,18 @@
+@import '../../variables.scss';
+
 .schedule-column {
     display: block;
-    width: 300px;
+    width: $schedule-column-width;
     height: calc(100% - 12px - 12px);
     margin: 12px;
-    flex: 0 0 300px !important;
+    flex: 0 0 $schedule-column-width !important;
     &__day {
         background: #d9d9d9;
         width: 100%;
         padding: 6px;
+    }
+    &__cells {
+        display: block !important;
+        width: 100%;
     }
 }
