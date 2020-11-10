@@ -30,7 +30,7 @@ export function mapListScheduleItemToDomainList(list: ScheduleItemDto[]): Schedu
 }
 
 export function mapResourceItemToDomain(dto: AvailableResourceDto): AvailableResource {
-    return {...dto, intervalFrom: new Date(dto.intervalFrom), intervalTill: new Date(dto.intervalTill)};
+    return {...dto, intervalFrom: moment(dto.intervalFrom), intervalTill: moment(dto.intervalTill)};
 }
 
 export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[]): AvailableResource[] {
@@ -40,6 +40,11 @@ export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[])
 function getColumnGenericKey(item: ScheduleItem): string {
     const {startDate, employee, office, specialty, building} = item;
     return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty + building;
+}
+
+function getColumnGenericKeyFromResource(resource: AvailableResource): string {
+    const { office, specialty, building, fullName } = resource;
+    return office + specialty + building + fullName;
 }
 
 export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
@@ -62,6 +67,10 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
         office: hashMap.get(key)?.[0]?.office as string,
         specialty: hashMap.get(key)?.[0]?.specialty as string,
     }));
+}
+
+export function mapResourcesItemsToColumn(list: AvailableResource[]): ScheduleColumn[] {
+    return [];
 }
 
 export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {

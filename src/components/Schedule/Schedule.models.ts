@@ -38,8 +38,8 @@ export interface AvailableResource {
     startWorkingHour: string;
     endWorkingHour: string;
     workingHourStep: number;
-    intervalFrom: Date;
-    intervalTill: Date;
+    intervalFrom: Moment;
+    intervalTill: Moment;
 }
 
 export interface ScheduleColumn {
