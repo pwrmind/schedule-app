@@ -1,5 +1,5 @@
 import { Store } from "antd/lib/form/interface";
-import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn } from "./Schedule.models";
+import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource } from "./schedule.models";
 import moment from 'moment'
 import ScheduleData from '../../mocks/schedule.json';
 

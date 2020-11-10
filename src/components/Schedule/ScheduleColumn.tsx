@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Row, Space, Typography } from 'antd';
-import { ScheduleColumn as ScheduleColumnInterface } from './Schedule.models';
+import { ScheduleColumn as ScheduleColumnInterface } from './schedule.models';
 import moment from 'moment';
 import './ScheduleColumn.scss';
 

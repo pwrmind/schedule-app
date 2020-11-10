@@ -15,6 +15,17 @@ export interface ScheduleProps {
     toDate: Date;
 }
 
+export interface AvailableResource {
+    id: number;
+    fullName: string;
+    office: string;
+    building: string;
+    specialty: string;
+    startWorkingHour: string;
+    endWorkingHour: string;
+    workingHourStep: number;
+}
+
 export interface ScheduleColumn {
     key?: string;
     date: Date;
