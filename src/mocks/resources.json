@@ -9,7 +9,8 @@
         "endWorkingHour": "19:00",
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
-        "intervalTill": "2020-12-30T00:00:00.000+03:00"
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
     },
     {
         "id": 1,
@@ -21,19 +22,21 @@
         "endWorkingHour": "19:00",
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
-        "intervalTill": "2020-12-30T00:00:00.000+03:00"
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4]
     },
     {
         "id": 2,
         "fullName": "Bikov Andrey Evgenievich",
-        "office": "o. 412",
+        "office": "o. 103",
         "building": "OP-57",
         "specialty": "therapist",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
-        "intervalTill": "2020-12-30T00:00:00.000+03:00"
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
     },
     {
         "id": 3,
@@ -45,7 +48,8 @@
         "endWorkingHour": "15:00",
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
-        "intervalTill": "2020-12-30T00:00:00.000+03:00"
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
     },
     {
         "id": 4,
@@ -53,10 +57,11 @@
         "office": "o. 106",
         "building": "GP-128",
         "specialty": "optometrist",
-        "startWorkingHour": "08:00",
+        "startWorkingHour": "15:00",
         "endWorkingHour": "19:00",
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
-        "intervalTill": "2020-12-30T00:00:00.000+03:00"
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
     }
 ]

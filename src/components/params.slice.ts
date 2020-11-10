@@ -7,7 +7,7 @@ interface ModuleState {
 }
 
 const initialState: ModuleState =  {
-    dateRange: [moment().startOf('day'), moment().add(1,'week').startOf('day')],
+    dateRange: [moment(new Date()).startOf('day'), moment(new Date()).startOf('day').add(7, 'day')],
 };
 
 const params = createSlice({

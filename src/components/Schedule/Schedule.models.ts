@@ -27,6 +27,7 @@ export interface AvailableResourceDto {
     workingHourStep: number;
     intervalFrom: string;
     intervalTill: string;
+    workingDays: number[];
 }
 
 export interface AvailableResource {
@@ -40,11 +41,12 @@ export interface AvailableResource {
     workingHourStep: number;
     intervalFrom: Moment;
     intervalTill: Moment;
+    workingDays: number[];
 }
 
 export interface ScheduleColumn {
     key?: string;
-    date: Date;
+    date: Moment;
     office: string;
     building: string;
     employee: string;

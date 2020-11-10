@@ -1,6 +1,6 @@
 import { Store } from "antd/lib/form/interface";
 import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto } from "./schedule.models";
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 
 function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
     return Array(24)
@@ -62,19 +62,27 @@ export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[]
         key,
         building: hashMap.get(key)?.[0]?.building as string,
         employee: hashMap.get(key)?.[0]?.employee as string,
-        date: moment(hashMap.get(key)?.[0]?.startDate as Date).startOf('day').toDate() as Date,
+        date: moment(hashMap.get(key)?.[0]?.startDate as Date).startOf('day'),
         items: hashMap.get(key) || [],
         office: hashMap.get(key)?.[0]?.office as string,
         specialty: hashMap.get(key)?.[0]?.specialty as string,
     }));
 }
 
-export function mapResourcesItemsToColumn(list: AvailableResource[]): ScheduleColumn[] {
-    return [];
+export function mapResourceToColumn(resource: AvailableResource, date: Moment): ScheduleColumn {
+    return {
+        key: getColumnGenericKeyFromResource(resource),
+        date,
+        office: resource.office,
+        building: resource.building,
+        employee: resource.fullName,
+        specialty: resource.specialty,
+        items: [],
+    };
 }
 
 export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {
-    return columns.sort((a, b) => a.date.getTime() - b.date.getTime());
+    return columns.sort((a, b) => a.date > b.date ? 1 : -1);
 }
 
 export function getTimeTupleFromTimeString(time: string): [number, number] {

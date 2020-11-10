@@ -13,13 +13,13 @@ function disabledDate(current: Moment) {
     return current && current <= moment().startOf('day');
 }
 
-export default function AppointmentDatePicker() {
+export default function ScheduleDatePicker() {
     const dispatch = useDispatch();
-    const range = useSelector((state: RootState) => state.params.dateRange);
+    const range = useSelector((state: RootState) => state.params.dateRange.map((v) => moment(v)) as [Moment, Moment]);
     const onCalendarChange = (values: RangeValue<Moment>, formatString: [string, string], info: RangeInfo) => {
         if (values?.every(v => !!v)) {
-            const payload = [...values] as [Moment, Moment];
-            dispatch(setDateRange(payload.map(v => v.startOf('day')) as  [Moment, Moment]));
+            const payload = values.map(v => (v as Moment).startOf('day')) as [Moment, Moment];
+            dispatch(setDateRange(payload));
         }
     }
     return (
