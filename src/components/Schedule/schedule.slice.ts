@@ -6,7 +6,7 @@ import PatientsMock from '../../mocks/patients.json';
 import ResourcesMock from '../../mocks/resources.json';
 import AppointmentsMock from '../../mocks/appointments.json';
 import IntervalEmployeeTaskMock from '../../mocks/IntervalEmployeeTask.json'
-import { Store } from 'antd/lib/form/interface';
+import { BACKUP_NAME_LOCAL_STORAGE } from '../../constants';
 
 
 interface ModuleState {
@@ -18,13 +18,15 @@ interface ModuleState {
     intervalEmployeeTasks: IntervalEmployeeTask[];
 }
 
+const persistanceState = JSON.parse(localStorage.getItem(BACKUP_NAME_LOCAL_STORAGE) || '{}')?.schedule;
+
 const initialState: ModuleState =  {
-    clients: [...PatientsMock],
-    resources: [...mapListResourceDtoListToDomainList(ResourcesMock)],
-    appointments: [...AppointmentsMock],
-    scheduleItems: [],
-    scheduleColumns: [],
-    intervalEmployeeTasks: [...IntervalEmployeeTaskMock],
+    clients: persistanceState.clients || [...PatientsMock],
+    resources: persistanceState.resources || [...mapListResourceDtoListToDomainList(ResourcesMock)],
+    appointments: persistanceState.appointments || [...AppointmentsMock],
+    scheduleItems: persistanceState.scheduleItems || [],
+    scheduleColumns: persistanceState.scheduleColumns || [],
+    intervalEmployeeTasks: persistanceState.intervalEmployeeTasks || [...IntervalEmployeeTaskMock],
 };
 
 const schedule = createSlice({

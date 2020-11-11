@@ -11,6 +11,10 @@ const store = configureStore({
     devTools: true
 });
 
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem(BACKUP_NAME_LOCAL_STORAGE, JSON.stringify(store.getState()));
+});
+
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default store;

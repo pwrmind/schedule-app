@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Store } from 'antd/lib/form/interface';
 import moment from 'moment';
-import { DEFAULT_DATE_FORMAT } from '../constants';
+import { BACKUP_NAME_LOCAL_STORAGE, DEFAULT_DATE_FORMAT } from '../constants';
 
 
 interface ModuleState {
@@ -9,9 +9,11 @@ interface ModuleState {
     endDate: string;
 }
 
+const persistanceState = JSON.parse(localStorage.getItem( BACKUP_NAME_LOCAL_STORAGE) || '{}')?.params;
+
 const initialState: ModuleState =  {
-    startDate: moment().add(0, 'day').format(DEFAULT_DATE_FORMAT),
-    endDate: moment().add(1, 'week').format(DEFAULT_DATE_FORMAT),
+    startDate: persistanceState.startDate || moment().add(0, 'day').format(DEFAULT_DATE_FORMAT),
+    endDate: persistanceState.endDate || moment().add(1, 'week').format(DEFAULT_DATE_FORMAT),
 };
 
 const params = createSlice({
