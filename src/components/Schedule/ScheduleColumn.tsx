@@ -41,7 +41,7 @@ export default function ScheduleColumn(props: DefaultProps) {
                 <Typography.Text className='schedule-column__resource-title'>{`${resource.building} (${resource.office})`}</Typography.Text>
             </Row>
             <Layout className='schedule-column__cells'>
-                {timeIntervals.map((v, i) => <ScheduleCell key={i} intervalTitle={v} />)}
+                {scheduleCells.map((v, i) => <ScheduleCell key={i} scheduleCell={v} />)}
             </Layout>
         </Layout>
     );

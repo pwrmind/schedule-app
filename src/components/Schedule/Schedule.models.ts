@@ -79,6 +79,7 @@ export interface Appointment {
     startTime: string;
     endTime: string;
     resourceId: number;
+    clientId?: number;
     type: string;
 }
 
@@ -87,6 +88,7 @@ export interface AppointmentDto {
     startTime: string;
     endTime: string;
     resourceId: number;
+    clientId?: number; 
     type: string;
 }
 
@@ -96,4 +98,11 @@ export interface ScheduleCell {
     endTime: string;
     size: number;
     type: TimeIntervalType;
+}
+
+export interface Client {
+    id: number;
+    fullName: string;
+    OMS: string;
+    birthDate: string;
 }
