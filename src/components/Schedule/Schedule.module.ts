@@ -131,7 +131,7 @@ export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: S
         }
         
         const startIndex = cells.findIndex((v) =>  moment(v.startTime).diff(moment(intervalStart), 'minute') === 0);
-        const endIndex = cells.findIndex((v) =>  moment(v.endTime).diff(moment(intervalEnd), 'minute') === 0);
+        const endIndex = cells.findIndex((v) =>  moment(intervalEnd).diff(moment(v.startTime), 'minute') === 0);
         if (startIndex >= 0 && endIndex >= 0) {
             cells.splice(startIndex, endIndex - startIndex);
             cells.splice(startIndex, 0, {
