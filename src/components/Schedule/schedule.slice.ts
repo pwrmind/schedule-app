@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { AvailableResource, ScheduleItem, ScheduleColumn, Appointment, Client } from './schedule.models';
+import { AvailableResource, ScheduleItem, ScheduleColumn, Appointment, Client, IntervalEmployeeTask } from './schedule.models';
 import { mapListResourceDtoListToDomainList } from './schedule.module';
 import PatientsMock from '../../mocks/patients.json';
 import ResourcesMock from '../../mocks/resources.json';
-import AppointmentsMock from '../../mocks/appointments.json'
+import AppointmentsMock from '../../mocks/appointments.json';
+import IntervalEmployeeTaskMock from '../../mocks/IntervalEmployeeTask.json'
 
 
 interface ModuleState {
@@ -12,7 +13,8 @@ interface ModuleState {
     resources: AvailableResource[];
     scheduleItems: ScheduleItem[];
     scheduleColumns: ScheduleColumn[];
-    appointments: Appointment[]; 
+    appointments: Appointment[];
+    intervalEmployeeTasks: IntervalEmployeeTask[];
 }
 
 const initialState: ModuleState =  {
@@ -21,6 +23,7 @@ const initialState: ModuleState =  {
     appointments: [...AppointmentsMock],
     scheduleItems: [],
     scheduleColumns: [],
+    intervalEmployeeTasks: [...IntervalEmployeeTaskMock],
 };
 
 const schedule = createSlice({

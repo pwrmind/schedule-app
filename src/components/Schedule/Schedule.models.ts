@@ -107,3 +107,11 @@ export interface Client {
     OMS: string;
     birthDate: string;
 }
+
+export interface IntervalEmployeeTask {
+    resourceId: number;
+    days: number[];
+    intervalFrom: string;
+    intervalTill: string;
+    type: string;
+}

@@ -67,7 +67,7 @@ export default function ScheduleCell(props: DefaultProps) {
                 footer={
                     <Row align='middle' justify='end' gutter={[8, 8]}>
                         <Button type='primary' onClick={() => onOk()}>Save</Button>
-                        <Button type='primary' onClick={() => removeAppointment()} danger>Delete</Button>
+                        <Button type='primary' onClick={() => removeAppointment()} danger disabled={!appointment}>Delete</Button>
                         <Button type='ghost' onClick={() => setVisible(false)}>Close</Button>
                     </Row>
                 }
