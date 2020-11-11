@@ -17,7 +17,7 @@ interface DefaultProps {
 }
 
 export default function ScheduleCell(props: DefaultProps) {
-    const {appointment, size, type, startTime, resourceId} = props.scheduleCell;
+    const {appointment, size, type, startTime, resourceId, endTime} = props.scheduleCell;
     const [visible, setVisible] = useState(false);
     const style: CSSProperties = {
         height: `${size * DEFAULT_CELL_SIZE}px`,
@@ -43,7 +43,7 @@ export default function ScheduleCell(props: DefaultProps) {
                 onOk={() => setVisible(false)}
                 onCancel={() => setVisible(false)}
             >
-                <AppointmentForm client={client as Client} scheduleCell={props.scheduleCell} resource={resource}/>
+                <AppointmentForm client={client as Client} scheduleCell={props.scheduleCell} resource={resource} defaultStartTime={startTime} defaultEndTime={endTime}/>
             </Modal>
         </Row>
     );
