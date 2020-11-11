@@ -1,12 +1,12 @@
 [
     {
         "resourceId": 1,
-        "days": [1, 2],
+        "days": [1, 2, 3 ,5],
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
         "intervalTill": "2020-11-30T00:00:00.000+03:00",
         "type": "WORKING_WITH_DOCUMENTS",
-        "timeFrom": "12:00",
-        "timeTill": "13:30"
+        "timeFrom": "08:00",
+        "timeTill": "10:00"
     },
     {
         "resourceId": 3,

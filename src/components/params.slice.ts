@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { DEFAULT_DATE_FORMAT } from '../constants';
 
 

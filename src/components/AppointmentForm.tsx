@@ -4,7 +4,7 @@ import { Form, Select, Typography, Row, Col, TimePicker, notification} from 'ant
 import { AvailableResource, Client, ScheduleCell, TimeIntervalType } from './Schedule/schedule.models';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
+import { DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
 import { Store } from 'antd/lib/form/interface';
 import { FormInstance } from 'antd/lib/form';
 import { ForwardedRef } from 'react';
@@ -119,7 +119,7 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
                 <Form.Item name="from" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(45% - 8px)' }} initialValue={moment(props.defaultStartTime)}>
                     <TimePicker hourStep={1} minuteStep={resource.workingHourStep} format={DEFAULT_TIME_FORMAT} placeholder='from'/>
                 </Form.Item>
-                <Form.Item name="to" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(45% - 8px)' }} initialValue={moment(props.defaultEndTime).add(resource.workingHourStep, 'minute')}>
+                <Form.Item name="to" rules={[{ required: true }]} style={{ display: 'inline-block', width: 'calc(45% - 8px)' }} initialValue={moment(props.defaultEndTime)}>
                     <TimePicker hourStep={1} minuteStep={resource.workingHourStep} format={DEFAULT_TIME_FORMAT} placeholder='to' />
                 </Form.Item>
             </Form.Item>

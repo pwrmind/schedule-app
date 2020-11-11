@@ -89,13 +89,13 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
         endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         size: 1,
         resourceId,
-        type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT ,
+        type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT,
     }));
     appointments.forEach((appointment) => {
-        const startTime = moment(appointment.startTime).format("HH:mm");
-        const endTime = moment(appointment.endTime).format("HH:mm");
-        const startIndex = timeIntervals.findIndex((v) => v === startTime);
-        const endIndex = timeIntervals.findIndex((v) => v === endTime);
+        const startTime = moment(appointment.startTime);
+        const endTime = moment(appointment.endTime);
+        const startIndex = intervals.findIndex((v) => moment(v.startTime).diff(moment(startTime), 'minute') === 0);
+        const endIndex = intervals.findIndex((v) => moment(v.endTime).diff(moment(endTime), 'minute') === 0);
         if (startIndex >= 0 && endIndex >= 0) {
             intervals.splice(startIndex, endIndex - startIndex);
             intervals.splice(startIndex, 0, {
@@ -112,7 +112,8 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
 }
 
 
-export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: ScheduleCell[], intervalTasks:  IntervalEmployeeTask[], date: string, resourceId: number): ScheduleCell[] {
+export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: ScheduleCell[], intervalTasks:  IntervalEmployeeTask[], date: string,
+        resourceId: number, minutesStep: number): ScheduleCell[] {
     const cells = [...cellsWithAppointments];
     const currentDate = moment(date);
     intervalTasks.forEach((interval) => {
