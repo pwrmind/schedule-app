@@ -1,5 +1,5 @@
 import { Store } from "antd/lib/form/interface";
-import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto, Appointment, ScheduleCell } from "./schedule.models";
+import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto, Appointment, ScheduleCell, IntervalEmployeeTask } from "./schedule.models";
 import moment from 'moment'
 import { DEFAULT_DATE_TIME_FORMAT } from "../../constants";
 
@@ -84,7 +84,7 @@ export function filterAppointmentByResourceIdAndDate(appointments: Appointment[]
 }
 
 export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string, resourceId: number): ScheduleCell[] {
-    let intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
+    const intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
         startTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         size: 1,
@@ -106,8 +106,42 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
                 resourceId,
                 appointment,
             });
-            return;
         }
     });
     return intervals;
+}
+
+
+export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: ScheduleCell[], intervalTasks:  IntervalEmployeeTask[], date: string, resourceId: number): ScheduleCell[] {
+    const cells = [...cellsWithAppointments];
+    const currentDate = moment(date);
+    intervalTasks.forEach((interval) => {
+        const inRangeFrom = currentDate.isAfter(moment(interval.intervalFrom), 'day') || currentDate.diff(moment(interval.intervalFrom), 'day') === 0;
+        const inRangeTill = currentDate.isBefore(moment(interval.intervalTill), 'day') || currentDate.diff(moment(interval.intervalTill), 'day') === 0;
+        const intervalStart = moment(`${date} ${interval.timeFrom}`);
+        const intervalEnd = moment(`${date} ${interval.timeTill}`);
+
+        if (!inRangeFrom && !inRangeTill) {
+            return;
+        }
+
+        if (!interval.days.includes(intervalStart.day())) {
+            return;
+        }
+        
+        const startIndex = cells.findIndex((v) =>  moment(v.startTime).diff(moment(intervalStart), 'minute') === 0);
+        const endIndex = cells.findIndex((v) =>  moment(v.endTime).diff(moment(intervalEnd), 'minute') === 0);
+        if (startIndex >= 0 && endIndex >= 0) {
+            cells.splice(startIndex, endIndex - startIndex);
+            cells.splice(startIndex, 0, {
+                type: interval.type as TimeIntervalType,
+                startTime: intervalStart.format(DEFAULT_DATE_TIME_FORMAT),
+                endTime: intervalEnd.format(DEFAULT_DATE_TIME_FORMAT),
+                size: endIndex - startIndex,
+                resourceId,
+            });
+        }
+    });
+
+    return cells;
 }

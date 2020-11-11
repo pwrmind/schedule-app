@@ -113,5 +113,7 @@ export interface IntervalEmployeeTask {
     days: number[];
     intervalFrom: string;
     intervalTill: string;
+    timeFrom: string;
+    timeTill: string;
     type: string;
 }

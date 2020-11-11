@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Layout, Row, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { RootState } from '../../store/store';
 import { mapAvailableResourceToTimeIntervals, fullNameToShortForm, filterAppointmentByResourceIdAndDate,
-    mapAppointmentsToScheduleCells } from './schedule.module';
+    mapAppointmentsToScheduleCells, mapIntervalEmployeeTasksToScheduleCells } from './schedule.module';
 import { ScheduleColumn as ScheduleColumnInterface, AvailableResource } from './schedule.models';
 import ScheduleCell from './ScheduleCell';
 import './ScheduleColumn.scss';
@@ -22,9 +22,15 @@ export default function ScheduleColumn(props: DefaultProps) {
 
     const appointments = useSelector((state: RootState) => filterAppointmentByResourceIdAndDate(state.schedule.appointments, resourceId, date));
 
+    const intervalEmployeeTasks = useSelector((state: RootState) => state.schedule.intervalEmployeeTasks.filter(v => v.resourceId === resourceId));
+
     const timeIntervals: string[] = useMemo(() => resource ? mapAvailableResourceToTimeIntervals(resource, appointments) : [], [resource, appointments]);
 
-    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId), [appointments, timeIntervals, date]);
+    const scheduleCells =  useMemo(() =>
+    mapIntervalEmployeeTasksToScheduleCells( 
+        mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId),
+        intervalEmployeeTasks, date, resourceId)
+    , [appointments, timeIntervals, date, resourceId, intervalEmployeeTasks]);
 
     return (
         <Layout className='schedule-column'>

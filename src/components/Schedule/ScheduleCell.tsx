@@ -13,6 +13,8 @@ import { replaceAppointment } from './schedule.slice';
 const scheduleCellColors = new Map<string, string>();
 scheduleCellColors.set(TimeIntervalType.RESERVED as string, "#b7eb8f");
 scheduleCellColors.set(TimeIntervalType.AVAILABLE_FOR_APPOINTMENT as string, "#ffffff");
+scheduleCellColors.set(TimeIntervalType.WORKING_WITH_DOCUMENTS as string, "#bfbfbf");
+scheduleCellColors.set(TimeIntervalType.TRAINING as string, "#d3adf7");
 
 interface DefaultProps {
     scheduleCell: ScheduleCellInterface;
