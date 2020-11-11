@@ -30,7 +30,7 @@ const params = createSlice({
                     (state as Store)[key] = action.payload[key]
                 });
             }
-        }
+        },
     }
 });
 

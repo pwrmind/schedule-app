@@ -6,6 +6,7 @@ import PatientsMock from '../../mocks/patients.json';
 import ResourcesMock from '../../mocks/resources.json';
 import AppointmentsMock from '../../mocks/appointments.json';
 import IntervalEmployeeTaskMock from '../../mocks/IntervalEmployeeTask.json'
+import { Store } from 'antd/lib/form/interface';
 
 
 interface ModuleState {
@@ -49,9 +50,16 @@ const schedule = createSlice({
                 state.appointments.splice(index, 1);
             }
         },
+        setInitialState(state: ModuleState, action: PayloadAction<Store>) {
+            if (!!action.payload) {
+                Object.keys(action.payload).forEach((key) => {
+                    (state as Store)[key] = action.payload[key]
+                });
+            }
+        },
     }
 });
 
-export const { setScheduleColumns, addAppointment, replaceAppointment } = schedule.actions;
+export const { setScheduleColumns, addAppointment, replaceAppointment, setInitialState } = schedule.actions;
 
 export default schedule.reducer;
