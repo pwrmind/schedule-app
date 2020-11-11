@@ -3,7 +3,8 @@ import { Layout, Row, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { RootState } from '../../store/store';
-import { mapAvailableResourceToTimeIntervals, fullNameToShortForm } from './schedule.module';
+import { mapAvailableResourceToTimeIntervals, fullNameToShortForm, filterAppointmentByResourceIdAndDate,
+    mapAppointmentsToScheduleCells } from './schedule.module';
 import { ScheduleColumn as ScheduleColumnInterface, AvailableResource } from './schedule.models';
 import ScheduleCell from './ScheduleCell';
 import './ScheduleColumn.scss';
@@ -13,11 +14,18 @@ interface DefaultProps {
 }
 
 export default function ScheduleColumn(props: DefaultProps) {
-    const {scheduleColumn: {date, employee, building, specialty}} = props;
+    const {scheduleColumn: {date, employee, building, specialty, resourceId}} = props;
+    
     const resource = useSelector((state: RootState) => state.schedule.resources.find(value => {
         return value.fullName === employee && value.building === building && value.specialty === specialty;
     }) as AvailableResource);
-    const timeCells: string[] = useMemo(() => resource ? mapAvailableResourceToTimeIntervals(resource) : [], [resource]);
+
+    const timeIntervals: string[] = useMemo(() => resource ? mapAvailableResourceToTimeIntervals(resource) : [], [resource]);
+    
+    const appointments = useSelector((state: RootState) => filterAppointmentByResourceIdAndDate(state.schedule.appointments, resourceId, date));
+
+    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals,appointments, date), [appointments, timeIntervals, date])
+
     return (
         <Layout className='schedule-column'>
             <Row align='middle' justify='center' className='schedule-column__day'>
@@ -33,7 +41,7 @@ export default function ScheduleColumn(props: DefaultProps) {
                 <Typography.Text className='schedule-column__resource-title'>{`${resource.building} (${resource.office})`}</Typography.Text>
             </Row>
             <Layout className='schedule-column__cells'>
-                {timeCells.map((v, i) => <ScheduleCell key={i} intervalTitle={v} />)}
+                {timeIntervals.map((v, i) => <ScheduleCell key={i} intervalTitle={v} />)}
             </Layout>
         </Layout>
     );

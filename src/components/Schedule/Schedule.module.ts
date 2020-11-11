@@ -1,7 +1,7 @@
 import { Store } from "antd/lib/form/interface";
-import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto } from "./schedule.models";
+import { ScheduleItem, ScheduleItemDto, TimeIntervalType, ScheduleColumn, AvailableResource, AvailableResourceDto, Appointment, ScheduleCell } from "./schedule.models";
 import moment from 'moment'
-import { DEFAULT_DATE_FORMAT } from "../../constants";
+import { DEFAULT_DATE_TIME_FORMAT } from "../../constants";
 
 function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
     return Array(24)
@@ -38,33 +38,6 @@ export function mapListResourceDtoListToDomainList(list: AvailableResourceDto[])
     return list.map(mapResourceItemToDomain);
 }
 
-function getColumnGenericKey(item: ScheduleItem): string {
-    const { startDate, employee, office, specialty, building } = item;
-    return startDate.getDate() + startDate.getMonth() + startDate.getFullYear() + employee + office + specialty + building;
-}
-
-export function mapScheduleItemsToColumn(list: ScheduleItem[]): ScheduleColumn[] {
-    const hashMap = list.reduce((acc, value) => {
-        const genericKey = getColumnGenericKey(value);
-        if (acc.has(genericKey) && acc.get(genericKey)) {
-            acc.get(genericKey)?.push(value);
-        }
-        if (!acc.has(genericKey)) {
-            acc.set(genericKey, [value]);
-        }
-        return acc;
-    }, new Map<string, ScheduleItem[]>());
-    return [...hashMap.keys()].map((key) => ({
-        key,
-        building: hashMap.get(key)?.[0]?.building as string,
-        employee: hashMap.get(key)?.[0]?.employee as string,
-        date: moment(hashMap.get(key)?.[0]?.startDate).startOf('day').format(DEFAULT_DATE_FORMAT),
-        items: hashMap.get(key) || [],
-        office: hashMap.get(key)?.[0]?.office as string,
-        specialty: hashMap.get(key)?.[0]?.specialty as string,
-    }));
-}
-
 export function sortScheduleItemsByDate(columns: ScheduleColumn[]): ScheduleColumn[] {
     return columns.sort((a, b) => a.date > b.date ? 1 : -1);
 }
@@ -96,10 +69,44 @@ export function getColumnsByDatesAndResources(dates: string[], resources: Availa
                 building: resource.building,
                 office: resource.office,
                 specialty: resource.specialty,
+                resourceId: resource.id,
                 items: [],
                 date: key,
                 employee: resource.fullName,
             } as ScheduleColumn
         )) || [];
     }).flat();
+}
+
+export function filterAppointmentByResourceIdAndDate(appointments: Appointment[], resourceId: number, date: string) {
+    return appointments.filter((v) => moment(v.date).startOf('day').diff(moment(date).startOf('day'), 'day') === 0
+        && v.resourceId === resourceId);
+}
+
+export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string): ScheduleCell[] {
+    const result: ScheduleCell[] = [];
+    let intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
+        startTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
+        endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
+        size: 1,
+        type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT ,
+    }));
+    appointments.forEach((appointment) => {
+        const startTime = moment(appointment.startTime).format("HH:mm");
+        const endTime = moment(appointment.endTime).format("HH:mm");
+        const startIndex = timeIntervals.findIndex((v) => v === startTime);
+        const endIndex = timeIntervals.findIndex((v) => v === endTime);
+        if (startIndex >= 0 && endIndex >= 0) {
+            intervals.splice(startIndex, endIndex - startIndex);
+            intervals.splice(startIndex, 0, {
+                type: appointment.type as TimeIntervalType,
+                startTime: appointment.startTime,
+                endTime: appointment.endTime,
+                size: endIndex - startIndex,
+                appointment,
+            });
+            return;
+        }
+    });
+    return intervals;
 }

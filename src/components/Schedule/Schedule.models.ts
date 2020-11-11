@@ -50,6 +50,7 @@ export interface ScheduleColumn {
     building: string;
     employee: string;
     specialty: string;
+    resourceId: number;
     items: ScheduleItem[];
 }
 
@@ -71,4 +72,28 @@ export interface ScheduleItemDto {
     employee: string;
     specialty: string;
     type: string;
+}
+
+export interface Appointment {
+    date: string;
+    startTime: string;
+    endTime: string;
+    resourceId: number;
+    type: string;
+}
+
+export interface AppointmentDto {
+    date: string;
+    startTime: string;
+    endTime: string;
+    resourceId: number;
+    type: string;
+}
+
+export interface ScheduleCell {
+    appointment?: Appointment;
+    startTime: string;
+    endTime: string;
+    size: number;
+    type: TimeIntervalType;
 }

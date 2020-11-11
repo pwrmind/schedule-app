@@ -10,7 +10,7 @@
         "workingHourStep": 30,
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
         "intervalTill": "2020-12-30T00:00:00.000+03:00",
-        "workingDays": [1, 2, 3, 4, 5]
+        "workingDays": [1, 2, 4, 5]
     },
     {
         "id": 1,
