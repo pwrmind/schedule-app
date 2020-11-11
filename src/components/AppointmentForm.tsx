@@ -1,10 +1,10 @@
 import React, { forwardRef, MutableRefObject, useLayoutEffect } from 'react';
 import moment from 'moment';
-import { Form, Select, Typography, Row, Col, TimePicker } from 'antd';
+import { Form, Select, Typography, Row, Col, TimePicker, notification} from 'antd';
 import { AvailableResource, Client, ScheduleCell, TimeIntervalType } from './Schedule/schedule.models';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
+import { DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
 import { Store } from 'antd/lib/form/interface';
 import { FormInstance } from 'antd/lib/form';
 import { ForwardedRef } from 'react';
@@ -41,9 +41,21 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
             dispatch(replaceAppointment(props.scheduleCell.appointment))
         }
     };
+    const notifySuccess = (value: Store) => {
+        notification.success({
+            message: 'Record successfully saved!',
+            description: `New appointment saved for
+            ${clients.find((v) => v.id === value.client)?.fullName} 
+            at ${moment(value.from).format('dd, DD.MM.YYYY')}
+            ${moment(value.from).format(DEFAULT_TIME_FORMAT)}-${moment(value.to).format(DEFAULT_TIME_FORMAT)}
+            `,
+            duration: 10,
+        })
+    }
     const onFinish = (value: Store) => {
         removeAppointment();
         addNewAppointment(value);
+        notifySuccess(value);
         props.onSubmit();
     }
     useLayoutEffect(() => {
