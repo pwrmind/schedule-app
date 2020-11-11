@@ -60,6 +60,13 @@ export default function ScheduleCell(props: DefaultProps) {
                     </Col>
                     : null
             }
+            {
+                [TimeIntervalType.TRAINING, TimeIntervalType.WORKING_WITH_DOCUMENTS].includes(props.scheduleCell.type) ?
+                    <Col span={20} className='schedule-cell__column'>
+                        <Typography.Text className='schedule-cell__text'>{props.scheduleCell.title}</Typography.Text>
+                    </Col>
+                    : null
+            }
             <Modal
                 visible={visible}
                 title={client ? `Change appointment for ${client.fullName}` : 'Add new appointment'}

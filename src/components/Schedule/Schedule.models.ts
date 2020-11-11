@@ -93,6 +93,7 @@ export interface AppointmentDto {
 }
 
 export interface ScheduleCell {
+    title?: string;
     appointment?: Appointment;
     startTime: string;
     endTime: string;

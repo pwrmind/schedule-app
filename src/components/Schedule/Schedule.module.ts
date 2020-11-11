@@ -134,6 +134,7 @@ export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: S
         if (startIndex >= 0 && endIndex >= 0) {
             cells.splice(startIndex, endIndex - startIndex);
             cells.splice(startIndex, 0, {
+                title: 'Service task',
                 type: interval.type as TimeIntervalType,
                 startTime: intervalStart.format(DEFAULT_DATE_TIME_FORMAT),
                 endTime: intervalEnd.format(DEFAULT_DATE_TIME_FORMAT),
