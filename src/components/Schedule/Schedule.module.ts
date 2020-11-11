@@ -83,12 +83,13 @@ export function filterAppointmentByResourceIdAndDate(appointments: Appointment[]
         && v.resourceId === resourceId);
 }
 
-export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string): ScheduleCell[] {
+export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string, resourceId: number): ScheduleCell[] {
     const result: ScheduleCell[] = [];
     let intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
         startTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         size: 1,
+        resourceId,
         type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT ,
     }));
     appointments.forEach((appointment) => {
@@ -103,6 +104,7 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
                 startTime: appointment.startTime,
                 endTime: appointment.endTime,
                 size: endIndex - startIndex,
+                resourceId,
                 appointment,
             });
             return;

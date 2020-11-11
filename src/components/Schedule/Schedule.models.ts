@@ -97,6 +97,7 @@ export interface ScheduleCell {
     startTime: string;
     endTime: string;
     size: number;
+    resourceId: number;
     type: TimeIntervalType;
 }
 

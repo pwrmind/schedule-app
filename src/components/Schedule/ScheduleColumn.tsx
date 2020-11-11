@@ -24,7 +24,7 @@ export default function ScheduleColumn(props: DefaultProps) {
     
     const appointments = useSelector((state: RootState) => filterAppointmentByResourceIdAndDate(state.schedule.appointments, resourceId, date));
 
-    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals,appointments, date), [appointments, timeIntervals, date])
+    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals,appointments, date, resourceId), [appointments, timeIntervals, date])
 
     return (
         <Layout className='schedule-column'>

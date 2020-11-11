@@ -13,9 +13,11 @@
         align-items: center;
         justify-content: flex-start;
         height: calc(#{$schedule-cell-height} - 6px);
+        cursor: pointer;
     }
     &__text {
         line-height: calc(#{$schedule-cell-height} - 8px);
         font-weight: 600;
+        user-select: none;
     }
 }
