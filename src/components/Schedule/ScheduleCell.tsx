@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, MutableRefObject, useRef, useState } from 'react';
 import { Row, Col, Typography, Modal} from 'antd';
 import moment from 'moment';
 import { ScheduleCell as ScheduleCellInterface, TimeIntervalType, Client, AvailableResource } from './schedule.models';
@@ -7,6 +7,8 @@ import './ScheduleCell.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import AppointmentForm from '../AppointmentForm';
+import { FormInstance } from 'antd/lib/form';
+import { Store } from 'antd/lib/form/interface';
 
 const scheduleCellColors = new Map<string, string>();
 scheduleCellColors.set(TimeIntervalType.RESERVED as string, "#b7eb8f");
@@ -18,6 +20,7 @@ interface DefaultProps {
 
 export default function ScheduleCell(props: DefaultProps) {
     const {appointment, size, type, startTime, resourceId, endTime} = props.scheduleCell;
+    const formRef = useRef<FormInstance | null>(null);
     const [visible, setVisible] = useState(false);
     const style: CSSProperties = {
         height: `${size * DEFAULT_CELL_SIZE}px`,
@@ -25,6 +28,7 @@ export default function ScheduleCell(props: DefaultProps) {
     };
     const client = useSelector((state: RootState) => appointment && appointment.clientId && state.schedule.clients.find((v) => v.id === appointment.clientId));
     const resource = useSelector((state: RootState) => state.schedule.resources.find((v) => v.id === resourceId) as AvailableResource);
+    const onOk = () => formRef.current?.submit();
     return (
         <Row align='stretch' justify='start' className='schedule-cell' style={style} onDoubleClick={() => setVisible(true)}>
             <Col span={4} className='schedule-cell__column'>
@@ -40,10 +44,18 @@ export default function ScheduleCell(props: DefaultProps) {
             <Modal
                 visible={visible}
                 title={client ? `Change appointment for ${client.fullName}` : 'Add new appointment'}
-                onOk={() => setVisible(false)}
+                onOk={() => onOk()}
                 onCancel={() => setVisible(false)}
             >
-                <AppointmentForm client={client as Client} scheduleCell={props.scheduleCell} resource={resource} defaultStartTime={startTime} defaultEndTime={endTime}/>
+                <AppointmentForm
+                    ref={formRef}
+                    client={client as Client}
+                    scheduleCell={props.scheduleCell}
+                    resource={resource}
+                    defaultStartTime={startTime} 
+                    defaultEndTime={endTime}
+                    onSubmit={() => setVisible(false)}
+                />
             </Modal>
         </Row>
     );

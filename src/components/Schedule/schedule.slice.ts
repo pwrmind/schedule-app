@@ -28,10 +28,14 @@ const schedule = createSlice({
     reducers: {
         setScheduleColumns(state: ModuleState, action: PayloadAction<ScheduleColumn[]>) {
             state.scheduleColumns = [...action.payload];
-        }
+        },
+        addAppointment(state: ModuleState, action: PayloadAction<Appointment>) {
+            state.appointments.push(action.payload);
+            state.appointments = [...state.appointments];
+        },
     }
 });
 
-export const { setScheduleColumns } = schedule.actions;
+export const { setScheduleColumns, addAppointment } = schedule.actions;
 
 export default schedule.reducer;
