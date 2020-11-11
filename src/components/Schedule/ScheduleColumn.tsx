@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Layout, Row, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -20,11 +20,11 @@ export default function ScheduleColumn(props: DefaultProps) {
         return value.fullName === employee && value.building === building && value.specialty === specialty;
     }) as AvailableResource);
 
-    const timeIntervals: string[] = useMemo(() => resource ? mapAvailableResourceToTimeIntervals(resource) : [], [resource]);
-    
     const appointments = useSelector((state: RootState) => filterAppointmentByResourceIdAndDate(state.schedule.appointments, resourceId, date));
 
-    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals,appointments, date, resourceId), [appointments, timeIntervals, date])
+    const timeIntervals: string[] = useMemo(() => resource ? mapAvailableResourceToTimeIntervals(resource, appointments) : [], [resource, appointments]);
+
+    const scheduleCells =  useMemo(() => mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId), [appointments, timeIntervals, date]);
 
     return (
         <Layout className='schedule-column'>

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import moment from 'moment';
 import { AvailableResource, ScheduleItem, ScheduleColumn, Appointment, Client } from './schedule.models';
 import { mapListResourceDtoListToDomainList } from './schedule.module';
 import PatientsMock from '../../mocks/patients.json';
@@ -33,9 +34,21 @@ const schedule = createSlice({
             state.appointments.push(action.payload);
             state.appointments = [...state.appointments];
         },
+        replaceAppointment(state: ModuleState, action: PayloadAction<Appointment>) {
+            const index = state.appointments.findIndex((v) => {
+                return v.clientId === action.payload.clientId &&
+                    v.resourceId === action.payload.resourceId &&
+                    moment(action.payload.startTime).diff(moment(v.startTime), 'minute') === 0 &&
+                    moment(action.payload.endTime).diff(moment(v.endTime), 'minute') === 0;
+            });
+            if (index > -1) {
+                console.log(`REmove appointment ${index}`);
+                state.appointments.splice(index, 1);
+            }
+        },
     }
 });
 
-export const { setScheduleColumns, addAppointment } = schedule.actions;
+export const { setScheduleColumns, addAppointment, replaceAppointment } = schedule.actions;
 
 export default schedule.reducer;

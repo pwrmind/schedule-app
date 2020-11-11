@@ -13,7 +13,7 @@ function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
         .flat();
 }
 
-export function mapAvailableResourceToTimeIntervals(resource: AvailableResource): string[] {
+export function mapAvailableResourceToTimeIntervals(resource: AvailableResource, appointments: Appointment[]): string[] {
     const startHour = getTimeTupleFromTimeString(resource.startWorkingHour)[0];
     const endHour = getTimeTupleFromTimeString(resource.endWorkingHour)[0];
     return getDayTimeIntervals(resource.workingHourStep, startHour, endHour);
@@ -84,7 +84,6 @@ export function filterAppointmentByResourceIdAndDate(appointments: Appointment[]
 }
 
 export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string, resourceId: number): ScheduleCell[] {
-    const result: ScheduleCell[] = [];
     let intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
         startTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
         endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),

@@ -8,7 +8,7 @@ import { DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
 import { Store } from 'antd/lib/form/interface';
 import { FormInstance } from 'antd/lib/form';
 import { ForwardedRef } from 'react';
-import { addAppointment } from './Schedule/schedule.slice';
+import { addAppointment, replaceAppointment } from './Schedule/schedule.slice';
 
 
 interface DefaultProps {
@@ -26,7 +26,7 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
     const [form] = Form.useForm();
     const clients = useSelector((state: RootState) => state.schedule.clients);
     const resources = useSelector((state: RootState) => state.schedule.resources);
-    const onFinish = (value: Store) => {
+    const addNewAppointment = (value: Store) => {
         dispatch(addAppointment({
             date: props.defaultStartTime,
             startTime: moment(value.from).format(DEFAULT_DATE_TIME_FORMAT),
@@ -34,7 +34,16 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
             resourceId: value.resource,
             clientId: value.client,
             type: TimeIntervalType.RESERVED,
-        }))
+        }));
+    };
+    const removeAppointment = () => {
+        if (props.scheduleCell.appointment) {
+            dispatch(replaceAppointment(props.scheduleCell.appointment))
+        }
+    };
+    const onFinish = (value: Store) => {
+        removeAppointment();
+        addNewAppointment(value);
         props.onSubmit();
     }
     useLayoutEffect(() => {
