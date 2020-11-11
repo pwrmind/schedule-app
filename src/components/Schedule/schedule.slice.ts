@@ -49,17 +49,10 @@ const schedule = createSlice({
                 console.log(`REmove appointment ${index}`);
                 state.appointments.splice(index, 1);
             }
-        },
-        setInitialState(state: ModuleState, action: PayloadAction<Store>) {
-            if (!!action.payload) {
-                Object.keys(action.payload).forEach((key) => {
-                    (state as Store)[key] = action.payload[key]
-                });
-            }
-        },
+        }
     }
 });
 
-export const { setScheduleColumns, addAppointment, replaceAppointment, setInitialState } = schedule.actions;
+export const { setScheduleColumns, addAppointment, replaceAppointment } = schedule.actions;
 
 export default schedule.reducer;

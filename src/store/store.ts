@@ -11,12 +11,6 @@ const store = configureStore({
     devTools: true
 });
 
-store.subscribe(() => {
-    localStorage.setItem(BACKUP_NAME_LOCAL_STORAGE, JSON.stringify(store.getState()));
-});
-
 export type RootState = ReturnType<typeof rootReducer>;
-
-export const persistentState = JSON.parse(localStorage.getItem(BACKUP_NAME_LOCAL_STORAGE) || '{}');
 
 export default store;

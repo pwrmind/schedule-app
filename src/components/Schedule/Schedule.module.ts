@@ -83,10 +83,10 @@ export function filterAppointmentByResourceIdAndDate(appointments: Appointment[]
         && v.resourceId === resourceId);
 }
 
-export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string, resourceId: number): ScheduleCell[] {
+export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointments: Appointment[], date: string, resourceId: number, minutesStep: number): ScheduleCell[] {
     const intervals: ScheduleCell[] = [...timeIntervals].map((interval) => ({
         startTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
-        endTime: moment(`${date} ${interval}`).format(DEFAULT_DATE_TIME_FORMAT),
+        endTime: moment(`${date} ${interval}`).add(minutesStep, 'minute').format(DEFAULT_DATE_TIME_FORMAT),
         size: 1,
         resourceId,
         type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT,
@@ -97,12 +97,12 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
         const startIndex = intervals.findIndex((v) => moment(v.startTime).diff(moment(startTime), 'minute') === 0);
         const endIndex = intervals.findIndex((v) => moment(v.endTime).diff(moment(endTime), 'minute') === 0);
         if (startIndex >= 0 && endIndex >= 0) {
-            intervals.splice(startIndex, endIndex - startIndex);
+            intervals.splice(startIndex, endIndex - startIndex + 1);
             intervals.splice(startIndex, 0, {
                 type: appointment.type as TimeIntervalType,
                 startTime: appointment.startTime,
                 endTime: appointment.endTime,
-                size: endIndex - startIndex,
+                size: endIndex - startIndex + 1,
                 resourceId,
                 appointment,
             });

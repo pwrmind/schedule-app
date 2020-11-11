@@ -28,7 +28,7 @@ export default function ScheduleColumn(props: DefaultProps) {
 
     const scheduleCells =  useMemo(() =>
     mapIntervalEmployeeTasksToScheduleCells( 
-        mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId),
+        mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId, resource.workingHourStep),
         intervalEmployeeTasks, date, resourceId, resource.workingHourStep)
     , [appointments, timeIntervals, date, resourceId, intervalEmployeeTasks]);
 

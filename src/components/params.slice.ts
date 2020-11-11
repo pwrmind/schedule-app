@@ -24,16 +24,9 @@ const params = createSlice({
         setEndDate(state: ModuleState, action: PayloadAction<string>) {
             state.endDate = action.payload;
         },
-        setInitialState(state: ModuleState, action: PayloadAction<Store>) {
-            if (!!action.payload) {
-                Object.keys(action.payload).forEach((key) => {
-                    (state as Store)[key] = action.payload[key]
-                });
-            }
-        },
     }
 });
 
-export const { setStartDate, setEndDate, setInitialState } = params.actions;
+export const { setStartDate, setEndDate } = params.actions;
 
 export default params.reducer;
