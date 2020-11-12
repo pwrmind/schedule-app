@@ -150,7 +150,7 @@ export default function ScheduleCell(props: DefaultProps) {
             </Row>
             <Modal
                 visible={visible}
-                title={client ? `Change appointment for ${client.fullName}` : 'Add new appointment'}
+                title={client ? `Изменение записи для  ${client.fullName}` : 'Добавить новую запись'}
                 onOk={() => onOk()}
                 onCancel={() => setVisible(false)}
                 destroyOnClose={true}

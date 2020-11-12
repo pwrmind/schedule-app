@@ -21,9 +21,9 @@ export default function ScheduleHeader() {
                 title={<Typography.Title level={4}>Расписание клиники</Typography.Title>}
                 extra={[
                     <Radio.Group defaultValue='0'>
-                        <Radio.Button value='1' onClick={() => setDates(0)}>1 day</Radio.Button>
-                        <Radio.Button value='2' onClick={() => setDates(2)}>2 days</Radio.Button>
-                        <Radio.Button value='3' onClick={() => setDates(7)}>Week</Radio.Button>
+                        <Radio.Button value='1' onClick={() => setDates(0)}>1 день</Radio.Button>
+                        <Radio.Button value='2' onClick={() => setDates(2)}>2 дня</Radio.Button>
+                        <Radio.Button value='3' onClick={() => setDates(7)}>Неделя</Radio.Button>
                     </Radio.Group>
                 ]}
             />
