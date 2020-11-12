@@ -18,7 +18,7 @@ export default function ScheduleHeader() {
         <Header className='sheduling-header'>
             <PageHeader
                 className='sheduling-header__page-header'
-                title={<Typography.Title level={4}>Stuff schedue</Typography.Title>}
+                title={<Typography.Title level={4}>Расписание клиники</Typography.Title>}
                 extra={[
                     <Radio.Group defaultValue='0'>
                         <Radio.Button value='1' onClick={() => setDates(0)}>1 day</Radio.Button>

@@ -26,6 +26,7 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
     const [form] = Form.useForm();
     const clients = useSelector((state: RootState) => state.schedule.clients);
     const resources = useSelector((state: RootState) => state.schedule.resources);
+    const selectedPatient = useSelector((state: RootState) => state.schedule.selectedPatient);
     const addNewAppointment = (value: Store) => {
         dispatch(addAppointment({
             date: props.defaultStartTime,
@@ -69,7 +70,7 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
             form={form}
             onFinish={onFinish}
         >
-            <Form.Item label='Client' name='client' rules={[{ required: true }]} initialValue={props.client?.id}>
+            <Form.Item label='Client' name='client' rules={[{ required: true }]} initialValue={props.client?.id || selectedPatient?.id}>
                 <Select
                     showSearch={true}
                     placeholder='Select client...'

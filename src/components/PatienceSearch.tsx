@@ -3,16 +3,20 @@ import { AutoComplete, Row, Col, Typography, Input, Dropdown, Menu } from 'antd'
 import { OptionData } from 'rc-select/lib/interface';
 import { UserOutlined } from '@ant-design/icons';
 import './PatienceSearch.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { Client } from './Schedule/schedule.models';
+import { Store } from 'antd/lib/form/interface';
+import { setSelectedPatient } from './Schedule/schedule.slice';
 
+type CustomOption = OptionData & Store;
 
-function patientsToOptionsMap(patient: Client): OptionData {
+function patientsToOptionsMap(patient: Client): CustomOption {
     return {
         key: patient.OMS,
         value: patient.fullName,
-        label: <Typography.Text>{patient.fullName}</Typography.Text>
+        label: <Typography.Text>{patient.fullName}</Typography.Text>,
+        patient,
     }
 }
 
@@ -27,6 +31,7 @@ function PatientDropdownMenu(props: {onClear: (...args: any) => any}) {
 }
 
 export default function PatientSearch() {
+    const dispatch = useDispatch();
     const patients = useSelector((state: RootState) => state.schedule.clients);
     const [options, setOptions] = useState<OptionData[]>([]);
     const [query, setQuery] = useState<string>('');
@@ -50,6 +55,7 @@ export default function PatientSearch() {
                 value={value}
                 options={options} className='patient-search__autocomplete'
                 onChange={(value: string) => setValue(value)}
+                onSelect={(value: string, option: any) => dispatch(setSelectedPatient(option.patient))}
             >
                 <Input.Search value={query} onChange={(ev: ChangeEvent<HTMLInputElement>) => setQuery(ev.target.value)} size='middle' placeholder='Введите текст для поиска' enterButton />
             </AutoComplete>
