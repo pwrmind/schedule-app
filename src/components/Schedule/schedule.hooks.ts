@@ -23,4 +23,3 @@ export function ScheduleColumnsHook() {
 
     return { resourcesList, rangeDaysCount, columns };
 }
-

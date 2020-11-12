@@ -8,19 +8,28 @@ import { RootState } from '../store/store';
 import { Client } from './Schedule/schedule.models';
 import { Store } from 'antd/lib/form/interface';
 import { setSelectedPatient } from './Schedule/schedule.slice';
+import { CSSProperties } from 'styled-components';
 
 type CustomOption = OptionData & Store;
 
 function patientsToOptionsMap(patient: Client): CustomOption {
+    const textStyle: CSSProperties = {whiteSpace: 'nowrap', overflow: 'hidden', display: 'block', fontSize: '12px'};
     return {
         key: patient.OMS,
         value: patient.fullName,
-        label: <Typography.Text>{patient.fullName}</Typography.Text>,
+        label: (<Row align='bottom' justify='space-between' gutter={[8, 8]}>
+                    <Col span={12} style={{overflow: 'hidden'}}>
+                        <Typography.Text ellipsis={true} style={textStyle}>{patient.fullName}</Typography.Text>
+                    </Col>
+                    <Col span={12}>
+                        <Typography.Text style={textStyle}>{patient.OMS}</Typography.Text>
+                    </Col>
+                </Row>),
         patient,
     }
 }
 
-function PatientDropdownMenu(props: {onClear: (...args: any) => any}) {
+function PatientDropdownMenu(props: { onClear: (...args: any) => any }) {
     return (
         <Menu>
             <Menu.Item onClick={() => props.onClear()}>
@@ -41,7 +50,7 @@ export default function PatientSearch() {
         setOptions(() => patients.filter(v => pattern.test(v.fullName) || pattern.test(v.OMS)).map(patientsToOptionsMap));
     }, [patients, query]);
     const onClear = () => {
-        setValue(''); 
+        setValue('');
         setQuery('');
         dispatch(setSelectedPatient(null));
     };
@@ -52,7 +61,7 @@ export default function PatientSearch() {
                     <Typography.Title level={5} className='patient-search__section-title'>Пациент</Typography.Title>
                 </Col>
                 <Col span={4} className='patient-search__column'>
-                    <Dropdown.Button overlay={<PatientDropdownMenu onClear={onClear}/>} icon={<UserOutlined />} />
+                    <Dropdown.Button overlay={<PatientDropdownMenu onClear={onClear} />} icon={<UserOutlined />} />
                 </Col>
             </Row>
             <AutoComplete
