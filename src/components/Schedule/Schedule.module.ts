@@ -7,7 +7,7 @@ function getDayTimeIntervals(interval: number, fromHour = 0, tillHour = 24) {
     return Array(24)
         .fill(0)
         .map((v, i) => i)
-        .filter((v) => (v >= fromHour) && (v <= tillHour))
+        .filter((v) => (v >= fromHour) && (v < tillHour))
         .map((v) => [v, Array(60 / interval).fill(0).map((j, i) => i * interval)] as [number, number[]])
         .map((v) => v[1].map((j) => (v[0] > 9 ? '' + v[0] : '0' + v[0]) + ':' + (j > 9 ? '' + j : '0' + j)))
         .flat();
@@ -116,7 +116,7 @@ export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: S
         resourceId: number, minutesStep: number): ScheduleCell[] {
     const cells = [...cellsWithAppointments];
     const currentDate = moment(date);
-    intervalTasks.forEach((interval) => {
+    intervalTasks.forEach((interval, index) => {
         const inRangeFrom = currentDate.isAfter(moment(interval.intervalFrom), 'day') || currentDate.diff(moment(interval.intervalFrom), 'day') === 0;
         const inRangeTill = currentDate.isBefore(moment(interval.intervalTill), 'day') || currentDate.diff(moment(interval.intervalTill), 'day') === 0;
         const intervalStart = moment(`${date} ${interval.timeFrom}`);
@@ -131,11 +131,14 @@ export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: S
         }
         
         const startIndex = cells.findIndex((v) =>  moment(v.startTime).diff(moment(intervalStart), 'minute') === 0);
-        const endIndex = cells.findIndex((v) =>  moment(intervalEnd).diff(moment(v.startTime), 'minute') === 0);
+        let endIndex = cells.findIndex((v) =>  moment(intervalEnd).diff(moment(v.startTime), 'minute') === 0);
+        const lastIndexManipulate = endIndex < 0 && index === (intervalTasks.length - 1);
+        endIndex = lastIndexManipulate ?
+            cells.findIndex((v) =>  moment(intervalEnd).diff(moment(v.endTime), 'minute') === 0) : endIndex;
         if (startIndex >= 0 && endIndex >= 0) {
             cells.splice(startIndex, endIndex - startIndex);
-            cells.splice(startIndex, 0, {
-                title: 'Service task',
+            cells.splice(lastIndexManipulate ? startIndex + 1 : startIndex, 0, {
+                title: interval.title,
                 type: interval.type as TimeIntervalType,
                 startTime: intervalStart.format(DEFAULT_DATE_TIME_FORMAT),
                 endTime: intervalEnd.format(DEFAULT_DATE_TIME_FORMAT),
@@ -146,4 +149,15 @@ export function mapIntervalEmployeeTasksToScheduleCells(cellsWithAppointments: S
     });
 
     return cells;
+}
+
+export function dateMatchInterval(date: string, intervalFrom: string, intervalTill: string) {
+    const currentDate = moment(date);
+    const inRangeFrom = currentDate.isAfter(moment(intervalFrom), 'day') || currentDate.diff(moment(intervalFrom), 'day') === 0;
+    const inRangeTill = currentDate.isBefore(moment(intervalTill), 'day') || currentDate.diff(moment(intervalTill), 'day') === 0;
+    return inRangeFrom && inRangeTill;
+}
+
+export function dateMatchAvailableDay(days: number[], day: string) {
+    return days.includes(moment(day).day());
 }

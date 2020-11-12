@@ -6,7 +6,8 @@ export enum TimeIntervalType {
     NO_APPOINTMENT = 'NO_APPOINTMENT',
     TRAINING = 'TRAINING',
     UNAVAILABLE_FOR_APPOINTMENT = 'UNAVAILABLE_FOR_APPOINTMENT',
-    AVAILABLE_FOR_APPOINTMENT = 'AVAILABLE_FOR_APPOINTMENT'
+    AVAILABLE_FOR_APPOINTMENT = 'AVAILABLE_FOR_APPOINTMENT',
+    NOT_WORKING = 'NOT_WORKING'
 }
 
 export interface ScheduleProps {
@@ -110,6 +111,7 @@ export interface Client {
 }
 
 export interface IntervalEmployeeTask {
+    title: string;
     resourceId: number;
     days: number[];
     intervalFrom: string;

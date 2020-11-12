@@ -17,6 +17,7 @@ scheduleCellColors.set(TimeIntervalType.RESERVED as string, "#b7eb8f");
 scheduleCellColors.set(TimeIntervalType.AVAILABLE_FOR_APPOINTMENT as string, "#ffffff");
 scheduleCellColors.set(TimeIntervalType.WORKING_WITH_DOCUMENTS as string, "#bfbfbf");
 scheduleCellColors.set(TimeIntervalType.TRAINING as string, "#d3adf7");
+scheduleCellColors.set(TimeIntervalType.NOT_WORKING as string, "#bfbfbf");
 
 interface DefaultProps {
     scheduleCell: ScheduleCellInterface;
@@ -141,7 +142,7 @@ export default function ScheduleCell(props: DefaultProps) {
                         : null
                 }
                 {
-                    [TimeIntervalType.TRAINING, TimeIntervalType.WORKING_WITH_DOCUMENTS].includes(props.scheduleCell.type) ?
+                    [TimeIntervalType.TRAINING, TimeIntervalType.WORKING_WITH_DOCUMENTS, TimeIntervalType.NOT_WORKING].includes(props.scheduleCell.type) ?
                         <Col span={20} className='schedule-cell__column'>
                             <Typography.Text className='schedule-cell__text'>{props.scheduleCell.title}</Typography.Text>
                         </Col>

@@ -1,10 +1,10 @@
 [
     {
         "id": 1,
-        "fullName": "Bikov Andrey Evgenievich",
-        "office": "o. 412",
-        "building": "GP-128",
-        "specialty": "Therapist",
+        "fullName": "Быков Андрей Евгеньевич",
+        "office": "к. 412",
+        "building": "ГП №128",
+        "specialty": "Терапевт",
         "startWorkingHour": "08:00",
         "endWorkingHour": "19:00",
         "workingHourStep": 30,
@@ -14,10 +14,10 @@
     },
     {
         "id": 3,
-        "fullName": "Kupetman Ivan Natanovich",
-        "office": "o. 103",
-        "building": "GP-128",
-        "specialty": "Therapist",
+        "fullName": "Купетман Иван Натанович",
+        "office": "к. 103",
+        "building": "ГП №128",
+        "specialty": "Дерматовенеролог",
         "startWorkingHour": "08:00",
         "endWorkingHour": "15:00",
         "workingHourStep": 30,
@@ -26,7 +26,7 @@
         "workingDays": [1, 2, 3, 4, 5]
     },
     {
-        "id": 0,
+        "id": 4,
         "fullName": "Григорьева Галина Гоеоргевна",
         "office": "к.110",
         "building": "ГП №128",
@@ -39,7 +39,7 @@
         "workingDays": [1, 2, 3, 4, 5]
     },
     {
-        "id": 2,
+        "id": 5,
         "fullName": "Сидорова Светлана Сергеевна",
         "office": "к.120",
         "building": "ГП №128",
@@ -52,7 +52,7 @@
         "workingDays": [1, 2, 3, 4]
     },
     {
-        "id": 4,
+        "id": 6,
         "fullName": "Сидорова Светлана Сергеевна",
         "office": "к.130",
         "building": "ГП №128",
@@ -65,7 +65,7 @@
         "workingDays": [5, 6]
     },
     {
-        "id": 5,
+        "id": 7,
         "fullName": "Елисеева Евлампия Егоровна",
         "office": "к.140",
         "building": "ГП №128",
@@ -78,7 +78,7 @@
         "workingDays": [1, 2, 3, 4, 5]
     },
     {
-        "id": 6,
+        "id": 8,
         "fullName": "Константинова-Щедрина Анна Андреевна",
         "office": "к.150",
         "building": "ГП №128",

@@ -34,7 +34,7 @@ function generateResourcesTreeByFullName(data: AvailableResource[], specialty: s
             key: fullName,
             title: data.find((value) => value.fullName === fullName && value.specialty === specialty)?.fullName,
             checkable: true,
-            resource: data.find(v => v.fullName === fullName && v.specialty === specialty)
+            resources: data.filter(v => v.fullName === fullName && v.specialty === specialty)
         }));
 }
 
@@ -108,7 +108,7 @@ export default function ResourcesTree() {
 
     const selectAll = (nodes: CustomDataNode[]) => {
         setCheckedKeys(nodes.map((v) => [v.key, ...v.children?.map(c => c.key)]).filter(v => !!v).flat());
-        dispatch(setSelectedResources(nodes.map(n => n.children || [] as CustomDataNode[]).flat().map(r => r.resource)));
+        dispatch(setSelectedResources(nodes.map(n => n.children || [] as CustomDataNode[]).flat().map(r => r.resources.flat()).flat()));
     };
 
     const unselectAll = () => {
@@ -133,8 +133,9 @@ export default function ResourcesTree() {
                     setCheckedKeys(checked);
                     dispatch(setSelectedResources(
                         info.checkedNodes
-                        .filter((v: any) => !!v.resource)
-                        .map((v: any) => v.resource)
+                        .filter((v: any) => !!v.resources)
+                        .map((v: any) => v.resources.flat())
+                        .flat()
                     ));
                 }}
             />
