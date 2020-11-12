@@ -24,5 +24,70 @@
         "intervalFrom": "2020-11-09T00:00:00.000+03:00",
         "intervalTill": "2020-12-30T00:00:00.000+03:00",
         "workingDays": [1, 2, 3, 4, 5]
+    },
+    {
+        "id": 0,
+        "fullName": "Григорьева Галина Гоеоргевна",
+        "office": "к.110",
+        "building": "ГП №128",
+        "specialty": "Терапевт",
+        "startWorkingHour": "10:00",
+        "endWorkingHour": "20:00",
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
+    },
+    {
+        "id": 2,
+        "fullName": "Сидорова Светлана Сергеевна",
+        "office": "к.120",
+        "building": "ГП №128",
+        "specialty": "Терапевт",
+        "startWorkingHour": "08:00",
+        "endWorkingHour": "15:00",
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4]
+    },
+    {
+        "id": 4,
+        "fullName": "Сидорова Светлана Сергеевна",
+        "office": "к.130",
+        "building": "ГП №128",
+        "specialty": "Терапевт",
+        "startWorkingHour": "14:00",
+        "endWorkingHour": "18:00",
+        "workingHourStep": 10,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [5, 6]
+    },
+    {
+        "id": 5,
+        "fullName": "Елисеева Евлампия Егоровна",
+        "office": "к.140",
+        "building": "ГП №128",
+        "specialty": "Офтальмолог",
+        "startWorkingHour": "08:00",
+        "endWorkingHour": "18:00",
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [1, 2, 3, 4, 5]
+    },
+    {
+        "id": 6,
+        "fullName": "Константинова-Щедрина Анна Андреевна",
+        "office": "к.150",
+        "building": "ГП №128",
+        "specialty": "Офтальмолог",
+        "startWorkingHour": "09:00",
+        "endWorkingHour": "21:00",
+        "workingHourStep": 30,
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-12-30T00:00:00.000+03:00",
+        "workingDays": [2, 3, 4, 5, 6]
     }
 ]

@@ -21,12 +21,12 @@ interface ModuleState {
 const persistanceState = JSON.parse(localStorage.getItem(BACKUP_NAME_LOCAL_STORAGE) || '{}')?.schedule;
 
 const initialState: ModuleState =  {
-    clients: persistanceState.clients || [...PatientsMock],
-    resources: persistanceState.resources || [...mapListResourceDtoListToDomainList(ResourcesMock)],
-    appointments: persistanceState.appointments || [...AppointmentsMock],
-    scheduleItems: persistanceState.scheduleItems || [],
-    scheduleColumns: persistanceState.scheduleColumns || [],
-    intervalEmployeeTasks: persistanceState.intervalEmployeeTasks || [...IntervalEmployeeTaskMock],
+    clients: persistanceState?.clients || [...PatientsMock],
+    resources: persistanceState?.resources || [...mapListResourceDtoListToDomainList(ResourcesMock)],
+    appointments: persistanceState?.appointments || [...AppointmentsMock],
+    scheduleItems: persistanceState?.scheduleItems || [],
+    scheduleColumns: persistanceState?.scheduleColumns || [],
+    intervalEmployeeTasks: persistanceState?.intervalEmployeeTasks || [...IntervalEmployeeTaskMock],
 };
 
 const schedule = createSlice({
