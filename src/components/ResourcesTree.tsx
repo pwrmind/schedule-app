@@ -6,26 +6,30 @@ import './ResourcesTree.scss';
 import { DataNode } from 'antd/lib/tree';
 
 
-function generateResourcesTreeBySpecilaties(data: Store[]): DataNode[] {
+function generateResourcesTreeBySpecialties(data: Store[]): DataNode[] {
     return [...new Set(data.map((item) => item.specialty as string))]
     .map((specialty, i) => ({
         key: specialty + i,
         title: data.find((value) => value.specialty === specialty)?.specialty,
         checkable: true,
-        children: data.filter((value) => value.specialty === specialty)
-            .map((value, i) => ({
-                key: specialty + i + value.fullName,
-                title: value.fullName,
-                checkable: true,
-            }))
-    }))
+        children: generateResourcesTreeByFullName(data, specialty),
+    }));
+}
+
+function generateResourcesTreeByFullName(data: Store[], specialty: string): DataNode[] {
+    return [...new Set(data.filter((item) => item.specialty === specialty).map((item) => item.fullName as string))]
+    .map((fullName, i) => ({
+        key: fullName + i,
+        title: data.find((value) => value.fullName === fullName && value.specialty === specialty)?.fullName,
+        checkable: true
+    }));
 }
 
 export default function ResourcesTree() {
     const [resourcesData] = useState<Store[]>(ResourcesData);
     const [nodeProps, setNodeProps] = useState<DataNode[]>([]);
     useEffect(() => {
-        setNodeProps(generateResourcesTreeBySpecilaties(resourcesData))
+        setNodeProps(generateResourcesTreeBySpecialties(resourcesData))
     }, [resourcesData]);
     return (
         <Space direction='vertical' size='large' className='resources-tree'>
