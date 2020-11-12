@@ -20,7 +20,7 @@ interface DefaultProps {
     onSubmit: (...args: any) => any;
 }
 
-function appointmentIsValid(appointments: Appointment[], tasks: IntervalEmployeeTask[], value: Store) {
+function appointmentIsValid(appointments: Appointment[], tasks: IntervalEmployeeTask[], value: Store, isNew: boolean) {
     const hasAppointmentsOnStartTime = appointments.some((a) => moment(a.startTime).diff(moment(value.from), 'day') === 0 
         && moment(value.from).isAfter(moment(a.startTime)) &&  moment(value.from).isBefore(moment(a.endTime))
         && a.resourceId === value.resource && a.clientId !== value.client);
@@ -32,7 +32,7 @@ function appointmentIsValid(appointments: Appointment[], tasks: IntervalEmployee
 }
 
 function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any> | null>) {
-    const { resource } = props;
+    const { scheduleCell: {appointment}, resource} = props;
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const clients = useSelector((state: RootState) => state.schedule.clients);
@@ -73,7 +73,7 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
         })
     }
     const onFinish = (value: Store) => {
-        if (!appointmentIsValid(appointments, tasks, value)) {
+        if (!appointmentIsValid(appointments, tasks, value, !!appointment)) {
             notifyError(value);
             return;
         }
