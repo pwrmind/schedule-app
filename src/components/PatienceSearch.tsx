@@ -40,7 +40,11 @@ export default function PatientSearch() {
         const pattern = new RegExp(query || '', 'gim');
         setOptions(() => patients.filter(v => pattern.test(v.fullName) || pattern.test(v.OMS)).map(patientsToOptionsMap));
     }, [patients, query]);
-    const onClear = () => {setValue(''); setQuery('')};
+    const onClear = () => {
+        setValue(''); 
+        setQuery('');
+        dispatch(setSelectedPatient(null));
+    };
     return (
         <Fragment>
             <Row align='middle' justify='space-between' className='patient-search'>

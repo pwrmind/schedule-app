@@ -13,7 +13,9 @@ export function ScheduleColumnsHook() {
     const resourcesList = useSelector((state: RootState) => {
         return state.schedule.resources
             .filter((v) => moment(v.intervalFrom).startOf('day').isBefore(moment(startDate).startOf('day')))
-            .filter((v) => state.schedule.selectedResources.some((r) => r.id === v.id));
+            .filter((v) => state.schedule.selectedResources.length ? 
+                state.schedule.selectedResources.some((r) => r.id === v.id)
+                : true);
     });
     const rangeDaysCount = useMemo(() => moment(endDate).diff(moment(startDate), 'day') || 1, [startDate, endDate]);
     const dates = useMemo(() => Array(rangeDaysCount).fill(0).map((d, i) => moment(startDate).add(i, 'day').format(DEFAULT_DATE_FORMAT)), [rangeDaysCount, startDate]);
