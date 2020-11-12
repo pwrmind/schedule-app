@@ -1,13 +1,11 @@
 
 import React from 'react';
-import { Layout, Typography} from 'antd';
+import { Layout } from 'antd';
 import { CustomRoute } from '../router/routes';
 import SchedulingSideMenu from '../components/SchedulingSideMenu';
 import ScheduleHeader from '../components/ScheduleHeader';
 import Schedule from '../components/Schedule/Schedule';
 import './Sheduling.scss';
-
-const { Header, Content } = Layout;
 
 export default function Scheduling(props: { routes?: CustomRoute[] }) {
     return (
@@ -15,9 +13,9 @@ export default function Scheduling(props: { routes?: CustomRoute[] }) {
             <SchedulingSideMenu />
             <Layout className='sheduling__content'>
                 <ScheduleHeader />
-                <Content>
+                <Layout.Content>
                     <Schedule />
-                </Content>
+                </Layout.Content>
             </Layout>
         </Layout>
     );

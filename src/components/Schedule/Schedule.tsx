@@ -4,7 +4,7 @@ import ScheduleColumn from './ScheduleColumn';
 import { ScheduleColumnsHook } from './schedule.hooks';
 import './Schedule.scss';
 
-export default function Schedule() {
+function Schedule() {
     const { columns } = ScheduleColumnsHook();
     return (
         <Layout className='schedule'>
@@ -12,3 +12,5 @@ export default function Schedule() {
         </Layout>
     );
 }
+
+export default React.memo(Schedule);

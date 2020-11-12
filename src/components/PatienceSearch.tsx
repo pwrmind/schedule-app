@@ -43,7 +43,7 @@ export default function PatientSearch() {
                     <Typography.Title level={5} className='patient-search__section-title'>Пациент</Typography.Title>
                 </Col>
                 <Col span={4} className='patient-search__column'>
-                    <Dropdown.Button overlay={<PatientDropdownMenu key='0' onClear={onClear}/>} icon={<UserOutlined />} />
+                    <Dropdown.Button overlay={<PatientDropdownMenu onClear={onClear}/>} icon={<UserOutlined />} />
                 </Col>
             </Row>
             <AutoComplete
@@ -51,7 +51,7 @@ export default function PatientSearch() {
                 options={options} className='patient-search__autocomplete'
                 onChange={(value: string) => setValue(value)}
             >
-                <Input.Search value={query} onChange={(ev: ChangeEvent<HTMLInputElement>) => setQuery(ev.target.value)} size='middle' placeholder='Enter value for search...' enterButton />
+                <Input.Search value={query} onChange={(ev: ChangeEvent<HTMLInputElement>) => setQuery(ev.target.value)} size='middle' placeholder='Введите текст для поиска' enterButton />
             </AutoComplete>
         </Fragment>
     );

@@ -30,7 +30,7 @@ export default function ScheduleColumn(props: DefaultProps) {
     mapIntervalEmployeeTasksToScheduleCells( 
         mapAppointmentsToScheduleCells(timeIntervals, appointments, date, resourceId, resource.workingHourStep),
         intervalEmployeeTasks, date, resourceId, resource.workingHourStep)
-    , [appointments, timeIntervals, date, resourceId, intervalEmployeeTasks]);
+    , [appointments, timeIntervals, date, resourceId, intervalEmployeeTasks, resource.workingHourStep]);
 
     return (
         <Layout className='schedule-column'>
