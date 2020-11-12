@@ -38,5 +38,25 @@
         "type": "TRAINING",
         "timeFrom": "10:00",
         "timeTill": "15:00"
+    },
+    {
+        "resourceId": 7,
+        "title": "Работа с документами",
+        "days": [1, 2, 3, 4, 5],
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-11-30T00:00:00.000+03:00",
+        "type": "WORKING_WITH_DOCUMENTS",
+        "timeFrom": "14:30",
+        "timeTill": "15:00"
+    },
+    {
+        "resourceId": 7,
+        "title": "Работа с документами",
+        "days": [1, 2, 3, 4, 5],
+        "intervalFrom": "2020-11-09T00:00:00.000+03:00",
+        "intervalTill": "2020-11-30T00:00:00.000+03:00",
+        "type": "WORKING_WITH_DOCUMENTS",
+        "timeFrom": "16:30",
+        "timeTill": "17:00"
     }
 ]
