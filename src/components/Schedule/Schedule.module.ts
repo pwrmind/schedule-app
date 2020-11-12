@@ -91,14 +91,17 @@ export function mapAppointmentsToScheduleCells(timeIntervals: string[], appointm
         resourceId,
         type: TimeIntervalType.AVAILABLE_FOR_APPOINTMENT,
     }));
-    appointments.forEach((appointment) => {
+    appointments.forEach((appointment, index) => {
         const startTime = moment(appointment.startTime);
         const endTime = moment(appointment.endTime);
         const startIndex = intervals.findIndex((v) => moment(v.startTime).diff(moment(startTime), 'minute') === 0);
-        const endIndex = intervals.findIndex((v) => moment(v.endTime).diff(moment(endTime), 'minute') === 0);
+        let endIndex = intervals.findIndex((v) => moment(v.endTime).diff(moment(endTime), 'minute') === 0);
+        const lastIndexManipulate = endIndex < 0 && index === (appointments.length - 1);
+        endIndex = lastIndexManipulate ?
+            intervals.findIndex((v) =>  moment(endTime).diff(moment(v.endTime), 'minute') === 0) : endIndex;
         if (startIndex >= 0 && endIndex >= 0) {
-            intervals.splice(startIndex, endIndex - startIndex + 1);
-            intervals.splice(startIndex, 0, {
+            intervals.splice(startIndex, endIndex - startIndex + 1  + (lastIndexManipulate ? 1 : 0));
+            intervals.splice(lastIndexManipulate ? startIndex + 1 : startIndex, 0, {
                 type: appointment.type as TimeIntervalType,
                 startTime: appointment.startTime,
                 endTime: appointment.endTime,

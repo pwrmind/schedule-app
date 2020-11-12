@@ -1,7 +1,7 @@
 import React, { forwardRef, MutableRefObject, useLayoutEffect } from 'react';
 import moment from 'moment';
 import { Form, Select, Typography, Row, Col, TimePicker, notification} from 'antd';
-import { AvailableResource, Client, ScheduleCell, TimeIntervalType } from './Schedule/schedule.models';
+import { Appointment, AvailableResource, Client, IntervalEmployeeTask, ScheduleCell, TimeIntervalType } from './Schedule/schedule.models';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { DEFAULT_DATE_TIME_FORMAT, DEFAULT_TIME_FORMAT } from '../constants';
@@ -20,13 +20,26 @@ interface DefaultProps {
     onSubmit: (...args: any) => any;
 }
 
+function appointmentIsValid(appointments: Appointment[], tasks: IntervalEmployeeTask[], value: Store) {
+    const hasAppointmentsOnStartTime = appointments.some((a) => moment(a.startTime).diff(moment(value.from), 'day') === 0 
+        && moment(value.from).isAfter(moment(a.startTime)) &&  moment(value.from).isBefore(moment(a.endTime))
+        && a.resourceId === value.resource && a.clientId !== value.client);
+    const hasAppointmentsOnEndTime = appointments.some((a) => moment(a.endTime).diff(moment(value.to), 'day') === 0 
+        && moment(value.to).isAfter(moment(a.startTime)) && moment(value.to).isBefore(moment(a.endTime))
+        && a.resourceId === value.resource && a.clientId !== value.client);
+    
+    return !hasAppointmentsOnStartTime && !hasAppointmentsOnEndTime;
+}
+
 function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any> | null>) {
-    const { resource } = props
+    const { resource } = props;
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const clients = useSelector((state: RootState) => state.schedule.clients);
     const resources = useSelector((state: RootState) => state.schedule.resources);
     const selectedPatient = useSelector((state: RootState) => state.schedule.selectedPatient);
+    const appointments = useSelector((state: RootState) => state.schedule.appointments);
+    const tasks = useSelector((state: RootState) => state.schedule.intervalEmployeeTasks);
     const addNewAppointment = (value: Store) => {
         dispatch(addAppointment({
             date: props.defaultStartTime,
@@ -53,12 +66,23 @@ function AppointmentForm(props: DefaultProps, ref: ForwardedRef<FormInstance<any
             duration: 10,
         })
     }
+    const notifyError = (value: Store) => {
+        notification.error({
+            message: 'Запись не может быть создана!',
+            duration: 10,
+        })
+    }
     const onFinish = (value: Store) => {
+        if (!appointmentIsValid(appointments, tasks, value)) {
+            notifyError(value);
+            return;
+        }
         removeAppointment();
         addNewAppointment(value);
         notifySuccess(value);
         props.onSubmit();
     }
+
     useLayoutEffect(() => {
        (ref as MutableRefObject<FormInstance<any>>).current = form;
     }, [form, ref, props])

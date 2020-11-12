@@ -29,8 +29,8 @@ const initialState: ModuleState =  {
     scheduleItems: persistanceState?.scheduleItems || [],
     scheduleColumns: persistanceState?.scheduleColumns || [],
     intervalEmployeeTasks: persistanceState?.intervalEmployeeTasks || [...IntervalEmployeeTaskMock],
-    selectedResources: [],
-    selectedPatient: null,
+    selectedResources: persistanceState?.selectedResources || [],
+    selectedPatient: persistanceState?.selectedPatient || null,
 };
 
 const schedule = createSlice({
