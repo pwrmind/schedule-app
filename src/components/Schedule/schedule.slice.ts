@@ -16,6 +16,7 @@ interface ModuleState {
     scheduleColumns: ScheduleColumn[];
     appointments: Appointment[];
     intervalEmployeeTasks: IntervalEmployeeTask[];
+    selectedResources: AvailableResource[];
 }
 
 const persistanceState = JSON.parse(localStorage.getItem(BACKUP_NAME_LOCAL_STORAGE) || '{}')?.schedule;
@@ -27,6 +28,7 @@ const initialState: ModuleState =  {
     scheduleItems: persistanceState?.scheduleItems || [],
     scheduleColumns: persistanceState?.scheduleColumns || [],
     intervalEmployeeTasks: persistanceState?.intervalEmployeeTasks || [...IntervalEmployeeTaskMock],
+    selectedResources: [],
 };
 
 const schedule = createSlice({
@@ -51,10 +53,13 @@ const schedule = createSlice({
                 console.log(`REmove appointment ${index}`);
                 state.appointments.splice(index, 1);
             }
-        }
+        },
+        setSelectedResources(state: ModuleState, action: PayloadAction<AvailableResource[]>) {
+            state.selectedResources = action.payload;
+        },
     }
 });
 
-export const { setScheduleColumns, addAppointment, replaceAppointment } = schedule.actions;
+export const { setScheduleColumns, addAppointment, replaceAppointment, setSelectedResources } = schedule.actions;
 
 export default schedule.reducer;

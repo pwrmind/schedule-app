@@ -1,16 +1,20 @@
 import React, { ChangeEvent, Fragment, useEffect, useState } from 'react';
-import { Input, Tree, Space, Radio, Row, Col, Dropdown, Menu, Typography, AutoComplete } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
-import { Store } from 'antd/lib/form/interface';
-import { DataNode } from 'antd/lib/tree';
 import { useDispatch, useSelector } from 'react-redux';
+import { Input, Tree, Space, Radio, Row, Col, Dropdown, Menu, Typography, AutoComplete } from 'antd';
+import { OptionData } from 'rc-select/lib/interface';
+import { Store } from 'antd/lib/form/interface';
+import { FilterOutlined } from '@ant-design/icons';
+import { DataNode } from 'antd/lib/tree';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { RootState } from '../store/store';
 import { AvailableResource } from './Schedule/schedule.models';
-import './ResourcesTree.scss';
-import { OptionData } from 'rc-select/lib/interface';
+import { setSelectedResources } from './Schedule/schedule.slice';
 
-function generateResourcesTreeBySpecialties(data: AvailableResource[]): DataNode[] {
+import './ResourcesTree.scss';
+
+type CustomDataNode = DataNode & Store;
+
+function generateResourcesTreeBySpecialties(data: AvailableResource[]): CustomDataNode[] {
     return [...new Set(data.map((item) => item.specialty as string))]
         .map((specialty, i) => ({
             key: specialty + i,
@@ -20,15 +24,15 @@ function generateResourcesTreeBySpecialties(data: AvailableResource[]): DataNode
         }));
 }
 
-function generateResourcesTreeByFullName(data: AvailableResource[], specialty: string): DataNode[] {
+function generateResourcesTreeByFullName(data: AvailableResource[], specialty: string): CustomDataNode[] {
     return [...new Set(data.filter((item) => item.specialty === specialty).map((item) => item.fullName as string))]
         .map((fullName, i) => ({
             key: fullName + i,
             title: data.find((value) => value.fullName === fullName && value.specialty === specialty)?.fullName,
-            checkable: true
+            checkable: true,
+            resource: data.find(v => v.fullName === fullName && v.specialty === specialty)
         }));
 }
-
 
 function resourcesToOptionsMap(resource: AvailableResource): OptionData {
     return {
@@ -60,7 +64,7 @@ function ResourcesTreeHeader() {
                     <AutoComplete
                         value={value}
                         options={options}
-                        onChange={(value: string) => setValue(value)}
+                        onChange={(value: string, option: Store) => setValue(value)}
                         style={{width: '100%'}}
                     >
                         <Input.Search value={query} onChange={(ev: ChangeEvent<HTMLInputElement>) => setQuery(ev.target.value)} size='middle' placeholder='Введите текст для поиска' enterButton />
@@ -86,8 +90,9 @@ function ResourcesTreeHeader() {
 }
 
 export default function ResourcesTree() {
+    const dispatch = useDispatch();
     const resourcesData = useSelector((state: RootState) => state.schedule.resources);
-    const [nodeProps, setNodeProps] = useState<DataNode[]>([]);
+    const [nodeProps, setNodeProps] = useState<CustomDataNode[]>([]);
     const [sortType, setSortType] = useState('1');
     useEffect(() => {
         setNodeProps(generateResourcesTreeBySpecialties(resourcesData))
@@ -99,7 +104,19 @@ export default function ResourcesTree() {
                 <Radio.Button value='1' className='resources-tree__sort-type-group__button'>По специальностям</Radio.Button>
                 <Radio.Button value='2' className='resources-tree__sort-type-group__button'>По алфавиту</Radio.Button>
             </Radio.Group>
-            <Tree checkable defaultExpandAll={true} defaultExpandParent={true} treeData={nodeProps} />
+            <Tree
+                checkable
+                defaultExpandAll={true}
+                defaultExpandParent={true}
+                treeData={nodeProps}
+                onCheck={(checked: any, info: any) => {
+                    dispatch(setSelectedResources(
+                        info.checkedNodes
+                        .filter((v: any) => !!v.resource)
+                        .map((v: any) => v.resource)
+                    ));
+                }}
+            />
         </Space>
     );
 }
